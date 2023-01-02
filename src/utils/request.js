@@ -2,12 +2,13 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2022-12-28 16:28:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2022-12-29 17:22:22
+ * @LastEditTime: 2023-01-02 10:29:13
  * @FilePath: \bg-system\src\utils\request.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import axios from 'axios'
 import { Message } from 'element-ui'
+import store from '@/store'
 
 // 创建一个axios的实例
 const service = axios.create({
@@ -17,7 +18,17 @@ const service = axios.create({
   timeout: 5000 // 定义5秒超时
 })
 // 请求拦截器
-service.interceptors.request.use()
+service.interceptors.request.use(config => {
+  // config是请求的配置信息
+  // 在这个位置需要统一的去注入token
+  if (store.getters.token) {
+    // 如果token存在 注入token
+    config.headers['Authorization'] = `Bearer ${store.getters.token}`
+  }
+  return config // 必须返回配置
+}, error => {
+  return Promise.reject(error)
+})
 // 响应拦截器
 service.interceptors.response.use(response => {
   // axios默认加了一层data
