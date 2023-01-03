@@ -2,12 +2,12 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2022-12-28 16:28:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-03 11:44:34
+ * @LastEditTime: 2023-01-03 16:57:01
  * @FilePath: \bg-system\src\store\modules\user.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 import { login, getUserInfo, getUserDetailById } from '@/api/user'
 
 // 状态
@@ -46,6 +46,7 @@ const actions = {
     // 调用api接口，那边传过来的是一个promise对象，用async await来接收
     const result = await login(data) // 拿到token
     context.commit('setToken', result) // 设置token --已经在响应拦截器处解构了success
+    setTimeStamp() // 将当前的最新时间写入缓存 登录成功，将token注入时间戳
   },
   // 获取用户资料action
   async getUserInfo(context) {
