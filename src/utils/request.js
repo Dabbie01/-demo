@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2022-12-28 16:28:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-03 17:01:00
+ * @LastEditTime: 2023-01-03 17:11:23
  * @FilePath: \bg-system\src\utils\request.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -54,8 +54,15 @@ service.interceptors.response.use(response => {
     return Promise.reject(new Error(message))
   }
 }, error => {
-  Message.error(error.message) // 提示错误信息
-  return Promise.reject(error) // 返回执行错误 让当前的执行链跳出成功 直接进入 catch
+  // error 信息 里面 response的对象
+  if (error.response && error.response.data && error.response.data.code === 10002) {
+    // 当等于10002的时候 表示 后端告诉我token超时了
+    store.dispatch('user/logout') // 登出action 删除token
+    router.push('/login')
+  } else {
+    Message.error(error.message) // 提示错误信息
+  }
+  return Promise.reject(error)
 })
 
 // 是否超时
