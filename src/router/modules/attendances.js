@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:51:56
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-04 14:25:25
+ * @LastEditTime: 2023-01-04 15:22:05
  * @FilePath: \bg-system\src\router\modules\employees.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -21,7 +21,8 @@ export default {
     component: () => import('@/views/attendances'),
     // 路由元信息  其实就是存储数据的对象 我们可以在这里放置一些信息
     meta: {
-      title: '考勤' // meta属性的里面的属性 随意定义 但是这里为什么要用title呢， 因为左侧导航会读取我们的路由里的meta里面的title作为显示菜单名称
+      title: '考勤', // meta属性的里面的属性 随意定义 但是这里为什么要用title呢， 因为左侧导航会读取我们的路由里的meta里面的title作为显示菜单名称
+      icon: 'skill'
     }
   }]
 }
