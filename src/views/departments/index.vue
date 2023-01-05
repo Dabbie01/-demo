@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:52:22
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-04 17:32:45
+ * @LastEditTime: 2023-01-05 14:13:12
  * @FilePath: \bg-system\src\views\approvals\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -31,6 +31,9 @@
 
 <script>
 import TreeTools from './components/tree-tools'
+import { getDepartments } from '@/api/departments'
+import { tranListToTreeData } from '@/utils'
+
 export default {
   components: {
     TreeTools
@@ -41,7 +44,7 @@ export default {
         label: 'name'
       },
       // 单独定义头部
-      company: { name: 'XXX公司', manager: '负责人' },
+      company: { },
       // departs：组织架构
       departs: [
         {
@@ -52,6 +55,17 @@ export default {
         { name: '行政部', manager: '刘备' },
         { name: '人事部', manager: '孙权' }
       ]
+    }
+  },
+  created() {
+    this.getDepartments() // 调用自身的方法
+  },
+  methods: {
+    async getDepartments() {
+      const result = await getDepartments()
+      this.company = { name: 'XXX公司', manager: '负责人' }
+      this.departs = tranListToTreeData(result.depts, '') // 需要将其转化成树形结构
+      console.log(result)
     }
   }
 }
