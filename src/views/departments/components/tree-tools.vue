@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 17:15:33
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-05 16:45:48
+ * @LastEditTime: 2023-01-05 17:29:25
  * @FilePath: \bg-system\src\views\departments\components\tree-tools.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -68,6 +68,9 @@ export default {
     operateDepts(type) {
       if (type === 'add') {
         // 添加子部门的操作
+        // 告诉父组件 显示弹层
+        // this.treeNode 就是当前点击的部门
+        this.$emit('addDepts', this.treeNode) // 为何传出treeNode 因为是添加子部门 需要当前部门的数据
       } else if (type === 'edit') {
         //  编辑部门的操作
       } else {
