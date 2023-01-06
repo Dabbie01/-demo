@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-05 17:02:14
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-06 16:04:15
+ * @LastEditTime: 2023-01-06 16:32:33
  * @FilePath: \bg-system\src\views\departments\components\add-dept.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -32,7 +32,16 @@
           v-model="formData.manager"
           style="width: 80%"
           placeholder="请选择"
-        />
+          @focus="getEmployeeSimple"
+        >
+          <!-- 需要循环生成选项  这里做一下简单的处理 显示的是用户名 存的也是用户名-->
+          <el-option
+            v-for="item in peoples"
+            :key="item.id"
+            :label="item.username"
+            :value="item.username"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="部门介绍" prop="introduce">
         <el-input
@@ -57,6 +66,8 @@
 
 <script>
 import { getDepartments } from '@/api/departments'
+import { getEmployeeSimple } from '@/api/employees'
+
 export default {
   // 需要传入一个props变量来控制 显示或者隐藏
   props: {
@@ -105,6 +116,7 @@ export default {
         manager: '', // 部门管理者
         introduce: '' // 部门介绍
       },
+
       // 定义校验规则
       rules: {
         name: [
@@ -142,7 +154,17 @@ export default {
             message: '部门介绍要求1-50个字符'
           }
         ]
-      }
+      },
+
+      // 接收获取的员工简单列表的数据
+      peoples: []
+    }
+  },
+
+  methods: {
+    // 获取员工简单列表数据
+    async getEmployeeSimple() {
+      this.peoples = await getEmployeeSimple()
     }
   }
 }
