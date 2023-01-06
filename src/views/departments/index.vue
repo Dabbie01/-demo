@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:52:22
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-05 17:33:37
+ * @LastEditTime: 2023-01-06 16:15:04
  * @FilePath: \bg-system\src\views\approvals\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -29,7 +29,7 @@
       </el-card>
     </div>
     <!-- 放置新增弹层组件 -->
-    <AddDept :show-dialog="showDialog" />
+    <AddDept :show-dialog="showDialog" :tree-node="node" />
   </div>
 </template>
 
@@ -73,7 +73,7 @@ export default {
     // 获取树形组织架构
     async getDepartments() {
       const result = await getDepartments()
-      this.company = { name: 'XXX公司', manager: '负责人' }
+      this.company = { name: 'XXX公司', manager: '负责人', id: '' }
       this.departs = tranListToTreeData(result.depts, '') // 需要将其转化成树形结构
       console.log(result)
     },
