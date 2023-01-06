@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-05 17:02:14
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-06 16:32:33
+ * @LastEditTime: 2023-01-06 17:17:12
  * @FilePath: \bg-system\src\views\departments\components\add-dept.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -12,7 +12,12 @@
   <el-dialog title="新增部门" :visible="showDialog">
     <!-- 表单组件  el-form   label-width设置label的宽度   -->
     <!-- 匿名插槽 -->
-    <el-form label-width="120px" :model="formData" :rules="rules">
+    <el-form
+      ref="deptForm"
+      label-width="120px"
+      :model="formData"
+      :rules="rules"
+    >
       <el-form-item label="部门名称" prop="name">
         <el-input
           v-model="formData.name"
@@ -57,7 +62,7 @@
     <el-row slot="footer" type="flex" justify="center">
       <!-- 列被分为24 -->
       <el-col :span="6">
-        <el-button type="primary" size="middle">确定</el-button>
+        <el-button type="primary" size="middle" @click="btnOK">确定</el-button>
         <el-button size="middle">取消</el-button>
       </el-col>
     </el-row>
@@ -65,7 +70,7 @@
 </template>
 
 <script>
-import { getDepartments } from '@/api/departments'
+import { getDepartments, addDepartments } from '@/api/departments'
 import { getEmployeeSimple } from '@/api/employees'
 
 export default {
@@ -165,6 +170,24 @@ export default {
     // 获取员工简单列表数据
     async getEmployeeSimple() {
       this.peoples = await getEmployeeSimple()
+    },
+
+    // 点击确定时触发
+    btnOK() {
+      // 手动校验
+      this.$refs.deptForm.validate(async(isOK) => {
+        if (isOK) {
+          // 表示可以提交了--调用新增部门接口
+          // 这里我们将id设置成了所需的pid
+          await addDepartments({ ...this.formData, pid: this.treeNode.id }) // 调用新增接口 添加父部门的id
+          // 告诉父组件
+          this.$emit('addDepts') // 触发一个自定义事件
+          // 此时应该去修改showDialog的值--实现点击确认后关闭弹层
+          // 父子通信-我们这里使用sync方法
+          // 子组件 update:固定写法 (update:props名称, 值)
+          this.$emit('update:showDialog', false) // 触发事件
+        }
+      })
     }
   }
 }

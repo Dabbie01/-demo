@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:52:22
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-06 16:15:04
+ * @LastEditTime: 2023-01-06 17:19:57
  * @FilePath: \bg-system\src\views\approvals\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -22,14 +22,16 @@
           <!-- 传入内容 插槽内容 会循环多次 有多少节点就循环多少次  -->
           <!-- 作用于插槽 slot-scope="obj" 接收传递给插槽的数据 data：每个节点的数据对象 -->
           <!-- tree-node就是组件中的treeNode -->
-          <!-- 子传父 第一个自定义事件：delDepts  删除了子部门，父级需要重新拉取数据 -->
-          <!-- 子传父 第二个自定义事件：addlDepts  新增了子部门，父级需要重新拉取数据 -->
+          <!-- tree-tools.vue子传父 第一个自定义事件：delDepts  删除了子部门，父级需要重新拉取数据 -->
+          <!-- tree-tools.vue子传父 第二个自定义事件：addlDepts  新增了子部门，父级需要重新拉取数据 -->
           <TreeTools slot-scope="{ data }" :tree-node="data" @delDepts="getDepartments" @addDepts="addDepts" />
         </el-tree>
       </el-card>
     </div>
     <!-- 放置新增弹层组件 -->
-    <AddDept :show-dialog="showDialog" :tree-node="node" />
+    <!-- add-dept.vue 子传父 第一个自定义事件：addlDepts  新增了子部门，父级需要重新拉取数据 -->
+    <!-- add-dept.vue 子传父 实现点击确认后关闭弹层 sync修饰符的使用  -->
+    <AddDept :show-dialog.sync="showDialog" :tree-node="node" @addDepts="getDepartments" />
   </div>
 </template>
 
@@ -70,7 +72,7 @@ export default {
     this.getDepartments() // 调用自身的方法
   },
   methods: {
-    // 获取树形组织架构
+    // 获取树形组织架构 拉取数据
     async getDepartments() {
       const result = await getDepartments()
       this.company = { name: 'XXX公司', manager: '负责人', id: '' }
