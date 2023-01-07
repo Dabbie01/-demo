@@ -2,14 +2,14 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-05 17:02:14
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-06 17:17:12
+ * @LastEditTime: 2023-01-07 14:01:20
  * @FilePath: \bg-system\src\views\departments\components\add-dept.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
   <!-- 放置弹层组件 -->
   <!-- 新增部门的弹层 -->
-  <el-dialog title="新增部门" :visible="showDialog">
+  <el-dialog title="新增部门" :visible="showDialog" @close="btnCancel">
     <!-- 表单组件  el-form   label-width设置label的宽度   -->
     <!-- 匿名插槽 -->
     <el-form
@@ -63,7 +63,7 @@
       <!-- 列被分为24 -->
       <el-col :span="6">
         <el-button type="primary" size="middle" @click="btnOK">确定</el-button>
-        <el-button size="middle">取消</el-button>
+        <el-button size="middle" @click="btnCancel">取消</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -186,8 +186,15 @@ export default {
           // 父子通信-我们这里使用sync方法
           // 子组件 update:固定写法 (update:props名称, 值)
           this.$emit('update:showDialog', false) // 触发事件
+          // 关闭dialog的时候会触发el-dialog的close事件，那么就会调用btnCancel函数 所以此处无需单独重置数据
         }
       })
+    },
+
+    // 点击取消时触发
+    btnCancel() {
+      this.$refs.deptForm.resetFields() // 清除重置之前的校验 resetFields是element.ui的form表单中的事件
+      this.$emit('update:showDialog', false) // 关闭弹层
     }
   }
 }
