@@ -2,14 +2,14 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-05 17:02:14
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-07 14:01:20
+ * @LastEditTime: 2023-01-07 17:09:52
  * @FilePath: \bg-system\src\views\departments\components\add-dept.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
   <!-- 放置弹层组件 -->
   <!-- 新增部门的弹层 -->
-  <el-dialog title="新增部门" :visible="showDialog" @close="btnCancel">
+  <el-dialog :title="showTitle" :visible="showDialog" @close="btnCancel">
     <!-- 表单组件  el-form   label-width设置label的宽度   -->
     <!-- 匿名插槽 -->
     <el-form
@@ -62,15 +62,20 @@
     <el-row slot="footer" type="flex" justify="center">
       <!-- 列被分为24 -->
       <el-col :span="6">
-        <el-button type="primary" size="middle" @click="btnOK">确定</el-button>
         <el-button size="middle" @click="btnCancel">取消</el-button>
+        <el-button type="primary" size="middle" @click="btnOK">确定</el-button>
       </el-col>
     </el-row>
   </el-dialog>
 </template>
 
 <script>
-import { getDepartments, addDepartments } from '@/api/departments'
+import {
+  getDepartments,
+  addDepartments,
+  getDepartDetail,
+  updateDepartments
+} from '@/api/departments'
 import { getEmployeeSimple } from '@/api/employees'
 
 export default {
@@ -94,9 +99,23 @@ export default {
       const { depts } = await getDepartments()
       // depts是所有的部门数据
       // 先找到同级部门下的所有子部门，然后再检验是否有同名部门，返回值是isRepeat
-      const isRepeat = depts
-        .filter((item) => item.pid === this.treeNode.id)
-        .some((item) => item.name === value)
+      let isRepeat = false
+      // 判断是新增部门还是编辑部门信息的校验 -- 根据有无id区分
+      if (this.formData.id) {
+        // 有id就是编辑模式
+        // 编辑 张三 => 校验规则 除了我之外 同级部门下 不能有叫张三的 -- 同级部门下我的名字不能与其他名字重复
+        isRepeat = depts
+          .filter(
+            (item) =>
+              item.id !== this.formData.id && item.pid === this.treeNode.pid
+          )
+          .some((item) => item.name === value)
+      } else {
+        // 没id就是新增模式
+        isRepeat = depts
+          .filter((item) => item.pid === this.treeNode.id)
+          .some((item) => item.name === value)
+      }
       isRepeat
         ? callback(new Error(`同级部门下已经有${value}的部门了！`))
         : callback()
@@ -107,7 +126,16 @@ export default {
       // 先要获取最新的组织架构数据
       const { depts } = await getDepartments()
       // 要求编码和所有部门编码不能有重复
-      const isRepeat = depts.some((item) => item.code === value && value) // 这里加一个 value不为空 因为我们的部门有可能没有code
+      let isRepeat = false
+      if (this.formData.id) {
+        // 编辑模式  因为编辑模式下 不能算自己
+        isRepeat = depts.some(
+          (item) => item.id !== this.formData.id && item.code === value && value
+        )
+      } else {
+        // 新增模式
+        isRepeat = depts.some((item) => item.code === value && value) // 这里加一个 value不为空 因为我们的部门有可能没有code
+      }
       isRepeat
         ? callback(new Error(`组织架构中已经有部门使用${value}编码了！`))
         : callback()
@@ -166,10 +194,21 @@ export default {
     }
   },
 
+  computed: {
+    showTitle() {
+      return this.formData.id ? '编辑部门' : '新增子部门'
+    }
+  },
+
   methods: {
     // 获取员工简单列表数据
     async getEmployeeSimple() {
       this.peoples = await getEmployeeSimple()
+    },
+
+    // 获取部门详情
+    async getDepartDetail(id) {
+      this.formData = await getDepartDetail(id)
     },
 
     // 点击确定时触发
@@ -177,9 +216,16 @@ export default {
       // 手动校验
       this.$refs.deptForm.validate(async(isOK) => {
         if (isOK) {
-          // 表示可以提交了--调用新增部门接口
-          // 这里我们将id设置成了所需的pid
-          await addDepartments({ ...this.formData, pid: this.treeNode.id }) // 调用新增接口 添加父部门的id
+          // 要分清楚现在是编辑还是新增
+          if (this.formData.id) {
+            // 编辑模式  调用编辑接口
+            await updateDepartments(this.formData)
+          } else {
+            // 新增
+            // 表示可以提交了--调用新增部门接口
+            // 这里我们将id设置成了所需的pid
+            await addDepartments({ ...this.formData, pid: this.treeNode.id })
+          } // 调用新增接口 添加父部门的id
           // 告诉父组件
           this.$emit('addDepts') // 触发一个自定义事件
           // 此时应该去修改showDialog的值--实现点击确认后关闭弹层
@@ -193,7 +239,14 @@ export default {
 
     // 点击取消时触发
     btnCancel() {
-      this.$refs.deptForm.resetFields() // 清除重置之前的校验 resetFields是element.ui的form表单中的事件
+      // 重置数据  因为resetFields只能重置表单上的数据 非表单上的 比如 编辑中id 不能重置
+      this.formData = {
+        name: '',
+        code: '',
+        manager: '',
+        introduce: ''
+      }
+      this.$refs.deptForm.resetFields() // 清除重置之前的校验 resetFields是element.ui的form表单中的事件  可以重置数据 只能重置 定义在data中的数据
       this.$emit('update:showDialog', false) // 关闭弹层
     }
   }

@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 17:15:33
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-05 17:29:25
+ * @LastEditTime: 2023-01-07 16:39:14
  * @FilePath: \bg-system\src\views\departments\components\tree-tools.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -73,9 +73,10 @@ export default {
         this.$emit('addDepts', this.treeNode) // 为何传出treeNode 因为是添加子部门 需要当前部门的数据
       } else if (type === 'edit') {
         //  编辑部门的操作
+        this.$emit('editDepts', this.treeNode) // 触发自定义事件
       } else {
         //  删除操作
-        this.$confirm('确定要删除该部门吗').then(() => {
+        this.$confirm('确定要删除该部门吗?').then(() => {
           // 如果点击了确定就会进入then
           return delDepartments(this.treeNode.id) // 返回promise对象
         }).then(() => {
