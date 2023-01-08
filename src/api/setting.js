@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-08 10:42:40
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-08 15:30:21
+ * @LastEditTime: 2023-01-08 15:44:55
  * @FilePath: \bg-system\src\api\setting.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -56,3 +56,15 @@ export function updateRole(data) {
     method: 'put'
   })
 }
+
+/** *
+ * 新增角色
+ * ***/
+export function addRole(data) {
+  return request({
+    url: '/sys/role',
+    data,
+    method: 'post'
+  })
+}
+

@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:52:22
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-08 15:39:51
+ * @LastEditTime: 2023-01-08 16:42:27
  * @FilePath: \bg-system\src\views\approvals\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -19,6 +19,7 @@
                 icon="el-icon-plus"
                 size="small"
                 type="primary"
+                @click="showDialog = true"
               >新增角色</el-button>
             </el-row>
             <!-- 表格 -->
@@ -145,7 +146,8 @@ import {
   getCompanyInfo,
   deleteRole,
   getRoleDetail,
-  updateRole
+  updateRole,
+  addRole
 } from '@/api/setting'
 import { mapGetters } from 'vuex'
 export default {
@@ -217,6 +219,7 @@ export default {
       this.roleForm = await getRoleDetail(id)
       this.showDialog = true // 为了不出现闪烁的问题 先获取数据 再弹出层
     },
+    // 确认按钮
     async btnOK() {
       try {
         // 手动校验
@@ -227,14 +230,25 @@ export default {
           await updateRole(this.roleForm)
         } else {
           // 新增业务
+          await addRole(this.roleForm)
         }
         // 重新拉取数据
         this.getRoleList()
         this.$message.success('操作成功')
-        this.showDialog = false
+        this.showDialog = false // 关闭弹层 会触发el-dialog的close事件 所以点了确定以后不需要清空数据，close事件会做该步
       } catch (error) {
         console.log(error)
       }
+    },
+    // 取消按钮
+    btnCancel() {
+      this.roleForm = {
+        name: '',
+        description: ''
+      }
+      // 移除校验
+      this.$refs.roleForm.resetFields()
+      this.showDialog = false
     }
   }
 }
