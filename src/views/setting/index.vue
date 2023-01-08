@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:52:22
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-08 11:15:14
+ * @LastEditTime: 2023-01-08 15:14:23
  * @FilePath: \bg-system\src\views\approvals\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -37,9 +37,16 @@
               />
               <el-table-column align="center" label="描述" prop="description" />
               <el-table-column align="center" label="操作">
-                <el-button size="small" type="success">分配权限</el-button>
-                <el-button size="small" type="primary">编辑</el-button>
-                <el-button size="small" type="danger">删除</el-button>
+                <!-- 作用域卡槽 -->
+                <template slot-scope="{ row }">
+                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button size="small" type="primary">编辑</el-button>
+                  <el-button
+                    size="small"
+                    type="danger"
+                    @click="deleteRole(row.id)"
+                  >删除</el-button>
+                </template>
               </el-table-column>
             </el-table>
             <!-- 分页组件 -->
@@ -106,7 +113,7 @@
 </template>
 
 <script>
-import { getRoleList, getCompanyInfo } from '@/api/setting'
+import { getRoleList, getCompanyInfo, deleteRole } from '@/api/setting'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -146,6 +153,20 @@ export default {
     // 获取公司的信息
     async getCompanyInfo() {
       this.formData = await getCompanyInfo(this.companyId)
+    },
+    // 删除按钮功能实现
+    async deleteRole(id) {
+      //  提示
+      try {
+        await this.$confirm('确认删除该角色吗?')
+        // 只有点击了确定 才能进入到下方
+        await deleteRole(id) // 调用删除接口
+        this.getRoleList() // 重新加载数据
+        this.$message.success('删除角色成功')
+      } catch (error) {
+        // 点击取消后的提示
+        console.log(error)
+      }
     }
   }
 }
