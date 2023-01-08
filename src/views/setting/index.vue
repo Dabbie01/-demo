@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:52:22
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-08 15:14:23
+ * @LastEditTime: 2023-01-08 15:39:51
  * @FilePath: \bg-system\src\views\approvals\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -40,7 +40,11 @@
                 <!-- 作用域卡槽 -->
                 <template slot-scope="{ row }">
                   <el-button size="small" type="success">分配权限</el-button>
-                  <el-button size="small" type="primary">编辑</el-button>
+                  <el-button
+                    size="small"
+                    type="primary"
+                    @click="editRole(row.id)"
+                  >编辑</el-button>
                   <el-button
                     size="small"
                     type="danger"
@@ -109,11 +113,40 @@
         </el-tabs>
       </el-card>
     </div>
+    <!-- 放置一个弹层组件 -->
+    <el-dialog title="编辑角色信息" :visible="showDialog" @close="btnCancel">
+      <el-form
+        ref="roleForm"
+        :model="roleForm"
+        :rules="rules"
+        label-width="120px"
+      >
+        <el-form-item label="角色名称" prop="name">
+          <el-input v-model="roleForm.name" />
+        </el-form-item>
+        <el-form-item label="角色描述">
+          <el-input v-model="roleForm.description" />
+        </el-form-item>
+      </el-form>
+      <!-- 放置一个footer的插槽底部 -->
+      <el-row slot="footer" type="flex" justify="center">
+        <el-col :span="6">
+          <el-button size="small" @click="btnCancel">取消</el-button>
+          <el-button size="small" type="primary" @click="btnOK">确定</el-button>
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getRoleList, getCompanyInfo, deleteRole } from '@/api/setting'
+import {
+  getRoleList,
+  getCompanyInfo,
+  deleteRole,
+  getRoleDetail,
+  updateRole
+} from '@/api/setting'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -127,6 +160,17 @@ export default {
       },
       formData: {
         // 公司信息
+      },
+      showDialog: false,
+      // 专门接收新增或者编辑的编辑的表单数据
+      roleForm: {
+        // name: '',
+        // description: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: '角色名称不能为空', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -154,7 +198,7 @@ export default {
     async getCompanyInfo() {
       this.formData = await getCompanyInfo(this.companyId)
     },
-    // 删除按钮功能实现
+    // 点击删除按钮功能实现
     async deleteRole(id) {
       //  提示
       try {
@@ -165,6 +209,30 @@ export default {
         this.$message.success('删除角色成功')
       } catch (error) {
         // 点击取消后的提示
+        console.log(error)
+      }
+    },
+    // 点击编辑按钮功能实现
+    async editRole(id) {
+      this.roleForm = await getRoleDetail(id)
+      this.showDialog = true // 为了不出现闪烁的问题 先获取数据 再弹出层
+    },
+    async btnOK() {
+      try {
+        // 手动校验
+        await this.$refs.roleForm.validate()
+        // 只有校验通过的情况下 才会执行await的下方内容
+        // roleForm这个对象有id就是编辑 没有id就是新增
+        if (this.roleForm.id) {
+          await updateRole(this.roleForm)
+        } else {
+          // 新增业务
+        }
+        // 重新拉取数据
+        this.getRoleList()
+        this.$message.success('操作成功')
+        this.showDialog = false
+      } catch (error) {
         console.log(error)
       }
     }
