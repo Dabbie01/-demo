@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2022-12-28 16:28:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-08 17:26:31
+ * @LastEditTime: 2023-01-10 13:58:35
  * @FilePath: \bg-system\src\main.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -22,6 +22,7 @@ import router from './router'
 import Component from '@/components'
 
 import * as directives from '@/directives'
+import * as filters from '@/filters' // 引入工具类
 import '@/icons' // icon
 import '@/permission' // permission control
 
@@ -33,6 +34,12 @@ Vue.use(ElementUI, { locale })
 Object.keys(directives).forEach(key => {
   // 注册自定义指令
   Vue.directive(key, directives[key])
+})
+
+// 注册全局的过滤器
+Object.keys(filters).forEach(key => {
+  // 注册自定义过滤器
+  Vue.filter(key, filters[key])
 })
 
 // 注册自己的插件
