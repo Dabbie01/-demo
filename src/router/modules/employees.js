@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:51:56
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-04 15:23:46
+ * @LastEditTime: 2023-01-12 18:03:25
  * @FilePath: \bg-system\src\router\modules\employees.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -23,6 +23,14 @@ export default {
     meta: {
       title: '员工管理', // meta属性的里面的属性 随意定义 但是这里为什么要用title呢， 因为左侧导航会读取我们的路由里的meta里面的title作为显示菜单名称
       icon: 'people'
+    }
+  },
+  {
+    path: 'detail/:id', // query传参 动态路由传参
+    component: () => import('@/views/employees/detail'),
+    hidden: true, // 不在左侧菜单显示
+    meta: {
+      title: '员工详情' // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
     }
   }]
 }
