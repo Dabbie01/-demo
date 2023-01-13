@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-06 16:18:59
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-13 10:34:49
+ * @LastEditTime: 2023-01-13 13:47:09
  * @FilePath: \bg-system\src\api\employees.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -66,6 +66,46 @@ export function importEmployee(data) {
 export function saveUserDetailById(data) {
   return request({
     url: `/sys/user/${data.id}`,
+    method: 'put',
+    data
+  })
+}
+
+/** *
+ *  读取用户详情的基础信息
+ * **/
+export function getPersonalDetail(id) {
+  return request({
+    url: `/employees/${id}/personalInfo`
+  })
+}
+
+/** *
+ *  更新用户详情的基础信息
+ * **/
+export function updatePersonal(data) {
+  return request({
+    url: `/employees/${data.userId}/personalInfo`,
+    method: 'put',
+    data
+  })
+}
+
+/** **
+ * 获取用户的岗位信息
+ * ****/
+export function getJobDetail(id) {
+  return request({
+    url: `/employees/${id}/jobs`
+  })
+}
+
+/**
+ * 保存岗位信息
+ * ****/
+export function updateJob(data) {
+  return request({
+    url: `/employees/${data.userId}/jobs`,
     method: 'put',
     data
   })
