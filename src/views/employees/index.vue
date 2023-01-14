@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:52:22
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-14 12:19:42
+ * @LastEditTime: 2023-01-14 15:35:33
  * @FilePath: \bg-system\src\views\approvals\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -104,7 +104,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="editRole(row.id)">角色</el-button>
               <el-button
                 type="text"
                 size="small"
@@ -132,6 +132,8 @@
     </div>
     <!-- 放置新增组件 -->
     <AddDemployee :show-dialog.sync="showDialog" />
+    <!-- 放置分配组件 -->
+    <AssignRole ref="assignRole" :show-role-dialog.sync="showRoleDialog" :user-id="userId" />
   </div>
 </template>
 
@@ -140,10 +142,12 @@ import { getEmployeeList, delEmployee } from '@/api/employees'
 import EmployeeEnum from '@/api/constant/employees'
 import AddDemployee from './components/add-employee'
 import { formatDate } from '@/filters'
+import AssignRole from './components/assign-role'
 
 export default {
   components: {
-    AddDemployee
+    AddDemployee,
+    AssignRole
   },
   data() {
     return {
@@ -154,7 +158,9 @@ export default {
         size: 6,
         total: 0 // 总数
       },
-      showDialog: false
+      showDialog: false,
+      showRoleDialog: false, // 显示分配角色的弹层
+      userId: null
     }
   },
   created() {
@@ -243,6 +249,12 @@ export default {
           return item[headers[key]]
         }) // => ["张三", "13811"，"2018","1", "2018", "10002"]
       })
+    },
+    // 编辑角色
+    async  editRole(id) {
+      this.userId = id // props传值 是异步的
+      await this.$refs.assignRole.getUserDetailById(id) // 父组件调用子组件方法
+      this.showRoleDialog = true
     }
   }
 }

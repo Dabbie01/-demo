@@ -348,7 +348,7 @@ export default {
   created() {
     this.type === 'personal' ? this.getPersonalDetail() : this.getJobDetail()
   },
-  // 组件更新
+  // 更新组件
   methods: {
     async getPersonalDetail() {
       this.formData = await getPersonalDetail(this.userId) // 获取个人基本信息
