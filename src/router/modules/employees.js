@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:51:56
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-12 18:03:25
+ * @LastEditTime: 2023-01-14 12:26:18
  * @FilePath: \bg-system\src\router\modules\employees.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -31,6 +31,15 @@ export default {
     hidden: true, // 不在左侧菜单显示
     meta: {
       title: '员工详情' // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
+    }
+  },
+  {
+    path: 'print/:id', // 二级默认路由
+    component: () => import('@/views/employees/print'), // 按需加载
+    hidden: true,
+    meta: {
+      title: '打印', // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
+      icon: 'people'
     }
   }]
 }

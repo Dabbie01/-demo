@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-12 17:59:27
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-13 13:44:51
+ * @LastEditTime: 2023-01-14 12:31:33
  * @FilePath: \bg-system\src\views\employees\detail.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -36,12 +36,28 @@
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="个人详情">
+            <!-- 打印按钮 -->
+            <el-row type="flex" justify="end">
+              <el-tooltip content="打印个人基本信息">
+                <router-link :to="`/employees/print/${userId}?type=personal`">
+                  <i class="el-icon-printer" />
+                </router-link>
+              </el-tooltip>
+            </el-row>
             <!-- 放置个人详情 -->
             <!-- 动态组件 可以切换组件 -->
             <component :is="userComponent" />
             <!-- <user-info /> -->
           </el-tab-pane>
           <el-tab-pane label="岗位详情">
+            <!-- 打印按钮 -->
+            <el-row type="flex" justify="end">
+              <el-tooltip content="打印岗位信息">
+                <router-link :to="`/employees/print/${userId}?type=job`">
+                  <i class="el-icon-printer" />
+                </router-link>
+              </el-tooltip>
+            </el-row>
             <!-- 放置岗位详情 -->
             <component :is="JobComponent" />
           </el-tab-pane>
