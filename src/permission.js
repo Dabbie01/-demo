@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2022-12-28 16:28:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-25 13:07:34
+ * @LastEditTime: 2023-01-25 14:37:40
  * @FilePath: \bg-system\src\permission.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -41,7 +41,7 @@ router.beforeEach(async(to, from, next) => {
         // routes就是筛选得到的动态路由
         // 动态路由 添加到 路由表中 默认的路由表 只有静态路由 没有动态路由
         // addRoutes  必须 用 next(地址) 不能用next()
-        router.addRoutes(routes) // 添加动态路由到路由表  铺路
+        router.addRoutes([...routes, { path: '*', redirect: '/404', hidden: true }]) // 添加动态路由到路由表  铺路
         // 添加完动态路由之后
         next(to.path) // 相当于跳到对应的地址  相当于多做一次跳转 为什么要多做一次跳转
         // 进门了，但是进门之后我要去的地方的路还没有铺好，直接走，掉坑里，多做一次跳转，再从门外往里进一次，跳转之前 把路铺好，再次进来的时候，路就铺好了

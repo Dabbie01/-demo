@@ -2,13 +2,14 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2022-12-28 16:28:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-03 16:57:01
+ * @LastEditTime: 2023-01-25 14:26:05
  * @FilePath: \bg-system\src\store\modules\user.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 
 import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 import { login, getUserInfo, getUserDetailById } from '@/api/user'
+import { resetRouter } from '@/router'
 
 // 状态
 const state = {
@@ -65,6 +66,11 @@ const actions = {
     context.commit('removeToken') // 不仅仅删除了vuex中的 还删除了缓存中的
     // 删除用户资料
     context.commit('removeUserInfo') // 删除用户信息
+    // 重置路由
+    resetRouter()
+    // 去设置权限模块下的路由为初始状态
+    // 要清空permission模块下的state数据
+    context.commit('permission/setRoutes', [], { root: true })
   }
 }
 export default {
