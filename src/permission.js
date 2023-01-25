@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2022-12-28 16:28:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-02 10:57:18
+ * @LastEditTime: 2023-01-25 13:07:34
  * @FilePath: \bg-system\src\permission.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -31,9 +31,23 @@ router.beforeEach(async(to, from, next) => {
       // 如果当前vuex中有用户资料的id 能去获取用户资料 如果没有id才要获取
       if (!store.getters.userId) {
         // 如果没有id才表示当前用户资料没有获取过
-        await store.dispatch('user/getUserInfo')
+        // async 函数所return的内容 用 await就可以接收到
+        const { roles } = await store.dispatch('user/getUserInfo')
+        // 如果说后续 需要根据用户资料获取数据的话 这里必须改成 同步
+        // 筛选用户的可用路由
+        // actions中函数 默认是Promise对象 调用这个对象 想要获取返回的值话 必须 加 await或者是then
+        // actions是做异步操作的
+        const routes = await store.dispatch('permission/filterRoutes', roles.menus)
+        // routes就是筛选得到的动态路由
+        // 动态路由 添加到 路由表中 默认的路由表 只有静态路由 没有动态路由
+        // addRoutes  必须 用 next(地址) 不能用next()
+        router.addRoutes(routes) // 添加动态路由到路由表  铺路
+        // 添加完动态路由之后
+        next(to.path) // 相当于跳到对应的地址  相当于多做一次跳转 为什么要多做一次跳转
+        // 进门了，但是进门之后我要去的地方的路还没有铺好，直接走，掉坑里，多做一次跳转，再从门外往里进一次，跳转之前 把路铺好，再次进来的时候，路就铺好了
+      } else {
+        next()
       }
-      next() // 直接放行
     }
   } else {
     // 如果没有token

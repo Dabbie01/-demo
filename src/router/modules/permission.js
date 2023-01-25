@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:51:56
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-04 15:23:39
+ * @LastEditTime: 2023-01-25 13:28:12
  * @FilePath: \bg-system\src\router\modules\employees.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -13,7 +13,7 @@ import Layout from '@/layout'
 // 每个子模块 其实 都是外层是layout  组件位于layout的二级路由里面
 export default {
   path: '/permission', // 路径
-  name: 'permission', // 给路由规则加一个name
+  name: 'permissions', // 给路由规则加一个name
   component: Layout, // 组件
   // 配置二级路的路由表
   children: [{
