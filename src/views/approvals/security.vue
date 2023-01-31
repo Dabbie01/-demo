@@ -8,7 +8,7 @@
             v-model="levelData.enable"
             active-color="#13ce66"
             :inactive-color="inactiveColor"
-            @change="handleChange(levelData,$event)"
+            @change="handleChange(levelData, $event)"
           />
         </span>
         <i class="el-icon-setting" @click="setFlow('regular')" />
@@ -20,7 +20,7 @@
             v-model="overtimeData.enable"
             active-color="#13ce66"
             :inactive-color="inactiveColor"
-            @change="handleChange(overtimeData,$event)"
+            @change="handleChange(overtimeData, $event)"
           />
         </span>
         <i class="el-icon-setting" @click="setFlow('regular')" />
@@ -32,14 +32,14 @@
             v-model="dimissionData.enable"
             active-color="#13ce66"
             :inactive-color="inactiveColor"
-            @change="handleChange(dimissionData,$event)"
+            @change="handleChange(dimissionData, $event)"
           />
         </span>
         <i class="el-icon-setting" @click="setFlow('regular')" />
       </div>
     </div>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
-      <span style="text-align:center">
+      <span style="text-align: center">
         <el-upload
           class="upload-demo"
           drag
@@ -57,18 +57,17 @@
       </span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="dialogVisible = false"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import {
-  saveSetState,
-  getFlowList,
-  suspend
-} from '@/api/approvals'
+import { saveSetState, getFlowList, suspend } from '@/api/approvals'
 import { importFilexml } from '@/filters'
 import { getToken } from '@/utils/auth'
 export default {
@@ -108,7 +107,7 @@ export default {
   methods: {
     async getFlowList() {
       const data = await getFlowList()
-      data.map(item => {
+      data.map((item) => {
         const items = {
           ...item,
           enable: item.persistentState.suspensionState !== 2

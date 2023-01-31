@@ -1,3 +1,11 @@
+<!--
+ * @Author: Dabbie 2310734576@qq.com
+ * @Date: 2023-01-25 16:37:23
+ * @LastEditors: Dabbie 2310734576@qq.com
+ * @LastEditTime: 2023-01-31 12:08:41
+ * @FilePath: \bg-system\src\views\approvals\quit.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <div class="quitApproval">
     <div class="contLeft">
@@ -18,9 +26,7 @@
       </div>
       <div class="content">
         <!-- <p v-for="(item, index) in information.body" :key="index"><span>{{item.key}} </span> {{item.val}}</p> -->
-        <p>
-          <span>申请类型：</span>离职
-        </p>
+        <p><span>申请类型：</span>离职</p>
         <p>
           <span>期望离职时间：</span>
           {{ information.data.exceptTime | formatDate }}
@@ -57,7 +63,12 @@
 </template>
 
 <script>
-import { getApprovalsDetail, getApprovalsTaskDetail, downImg } from '@/api/approvals'
+import {
+  getApprovalsDetail,
+  getApprovalsTaskDetail,
+  downImg
+} from '@/api/approvals'
+
 export default {
   name: 'UsersTableIndex',
 
@@ -86,9 +97,14 @@ export default {
     // 图片下载
     async getReviewHistory(id) {
       const response = await downImg(id)
-      this.imgs = 'data:image/png;base64,' + btoa(
-        new Uint8Array(response.request.response).reduce((data, byte) => data + String.fromCharCode(byte), '')
-      )
+      this.imgs =
+        'data:image/png;base64,' +
+        btoa(
+          new Uint8Array(response.request.response).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ''
+          )
+        )
     }
   }
 }

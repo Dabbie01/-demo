@@ -1,4 +1,5 @@
 // 公司设置
+
 export default {
   // 所属行业
   industryKind: [{

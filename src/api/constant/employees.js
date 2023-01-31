@@ -1,4 +1,5 @@
-// 员工
+//  员工
+
 export default {
   // 聘用形式
   hireType: [

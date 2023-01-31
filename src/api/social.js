@@ -1,3 +1,11 @@
+/*
+ * @Author: Dabbie 2310734576@qq.com
+ * @Date: 2023-01-25 16:39:48
+ * @LastEditors: Dabbie 2310734576@qq.com
+ * @LastEditTime: 2023-01-31 12:02:20
+ * @FilePath: \bg-system\src\api\social.js
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import request from '@/utils/request'
 
 export function getArchivingCont(params) {
@@ -13,6 +21,7 @@ export function getArchivingList(data) {
     data
   })
 }
+
 export function newReport(data) {
   return request({
     url: `/social_securitys/historys/${data.yearMonth}/newReport`,
@@ -20,24 +29,28 @@ export function newReport(data) {
     data
   })
 }
+
 export function getHistorysData(data) {
   return request({
     url: `/social_securitys/historys/archiveDetail/${data.userId}/${data.yearMonth}`,
     data
   })
 }
+
 export function getArchivingExport(data) {
   return request({
     url: `/social_securitys/historys/${data.yearMonth}/export`,
     data
   })
 }
+
 export function getArchivingFirst(data) {
   return request({
     url: `/social_securitys/historys/${data.yearMonth}/first`,
     data
   })
 }
+
 export function getSocialList(data) {
   return request({
     url: '/social_securitys/list',
@@ -45,6 +58,7 @@ export function getSocialList(data) {
     data
   })
 }
+
 export function getArchivingArchive(data) {
   return request({
     url: `/social_securitys/historys/${data.yearMonth}/archive`,
