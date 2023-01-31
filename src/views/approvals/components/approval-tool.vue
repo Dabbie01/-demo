@@ -1,14 +1,13 @@
+<!--
+ * @Author: Dabbie 2310734576@qq.com
+ * @Date: 2023-01-25 16:37:23
+ * @LastEditors: Dabbie 2310734576@qq.com
+ * @LastEditTime: 2023-01-31 15:07:40
+ * @FilePath: \bg-system\src\views\approvals\components\approval-tool.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <div class="cont-top-box">
-    <!-- <div class="top-lable">
-      <div class="careful-lab"> <i class="el-icon-info" />当前审批中 0 本月审批通过 1 本月审批驳回 0</div>
-      <div class="lable-tit">
-        <el-button type="primary" size="mini">
-          <router-link :to="{'path':'/approvals/securitySetting'}">流程设置</router-link>
-
-        </el-button>
-      </div>
-    </div> -->
     <el-dialog title="导出" width="500px" :visible.sync="exportData">
       <div class="exportTit"> 如果导出每月数据过多，请使用筛选功能后导出 </div>
       <div class="exportCont">

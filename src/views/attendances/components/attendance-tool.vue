@@ -1,10 +1,19 @@
 <template>
   <div class="cont-top-box">
     <div class="top-lable">
-      <div class="careful-lab"> <i class="el-icon-info" />有 {{ attendInfo.tobeTaskCount }} 条考勤审批尚未处理 </div>
+      <div class="careful-lab">
+        <i class="el-icon-info" />有
+        {{ attendInfo.tobeTaskCount }} 条考勤审批尚未处理
+      </div>
       <div class="lable-tit">
         <span class="serachInput">
-          <i v-show="iconShow" class="fa fa-search" aria-hidden="true" title="搜索" @click="searchIcon" />
+          <i
+            v-show="iconShow"
+            class="fa fa-search"
+            aria-hidden="true"
+            title="搜索"
+            @click="searchIcon"
+          />
           <el-input
             v-show="searchShow"
             v-model="formData.keyword"
@@ -14,19 +23,43 @@
             @keyup.enter.native="dataSearch"
           />
         </span>
-        <router-link :to="{'path':'/employees/import/',query: {name: '考勤'}}" class="el-button el-button--primary el-button--mini" title="导入">导入</router-link>
+        <router-link
+          :to="{ path: '/employees/import/', query: { name: '考勤' } }"
+          class="el-button el-button--primary el-button--mini"
+          title="导入"
+        >导入</router-link>
         <el-badge is-dot class="item">
-          <el-button type="primary" size="mini" title="提醒" @click="handleTip">提醒</el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            title="提醒"
+            @click="handleTip"
+          >提醒</el-button>
         </el-badge>
-        <el-button type="primary" size="mini" title="设置" @click="handleSet">设置</el-button>
-        <router-link :to="{'path':'/attendances/archiving/'}" class="el-button el-button--primary el-button--mini" title="历史归档">历史归档</router-link>
-        <router-link :to="{'path':'/attendances/report/'+ yearMonth}" class="el-button el-button--primary el-button--mini">{{ attendInfo.month }}月份报表</router-link>
+        <el-button
+          type="primary"
+          size="mini"
+          title="设置"
+          @click="handleSet"
+        >设置</el-button>
+        <router-link
+          :to="{ path: '/attendances/archiving/' }"
+          class="el-button el-button--primary el-button--mini"
+          title="历史归档"
+        >历史归档</router-link>
+        <router-link
+          :to="{ path: '/attendances/report/' + yearMonth }"
+          class="el-button el-button--primary el-button--mini"
+        >{{ attendInfo.month }}月份报表</router-link>
       </div>
-
     </div>
 
     <!-- 设置 -->
-    <component :is="employeesSet" ref="set" @handleCloseModal="handleCloseModal" />
+    <component
+      :is="employeesSet"
+      ref="set"
+      @handleCloseModal="handleCloseModal"
+    />
   </div>
 </template>
 

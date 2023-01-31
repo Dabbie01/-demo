@@ -11,7 +11,7 @@
       <div class="topTitle">
         <div>
           <span>审批类型：</span>
-          <el-radio-group v-model="approvalsTypes" style="margin:5px 0">
+          <el-radio-group v-model="approvalsTypes" style="margin: 5px 0">
             <el-radio
               v-for="item in approvalsType"
               :key="item.deploymentId"
@@ -36,13 +36,21 @@
       </div>
       <div>
         <!-- 排序组件需要 设置列的prop 和sortable才能使得默认的排序生效 -->
-        <el-table :data="tableData" style="width: 100%" :default-sort="{order: 'descending',prop: 'procApplyTime'}">
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          :default-sort="{ order: 'descending', prop: 'procApplyTime' }"
+        >
           <el-table-column type="selection" width="28" />
           <el-table-column type="index" label="序号" width="60" />
           <el-table-column prop="processName" label="审批类型" />
-          <el-table-column v-if="tagName!=='launch'" prop="username" label="申请人" />
           <el-table-column
-            v-if="tagName!=='approvals'"
+            v-if="tagName !== 'launch'"
+            prop="username"
+            label="申请人"
+          />
+          <el-table-column
+            v-if="tagName !== 'approvals'"
             prop="procCurrNodeUserName"
             label="当前审批人"
           />
@@ -58,19 +66,19 @@
           </el-table-column>-->
           <el-table-column label="审批状态">
             <template slot-scope="scope">
-              <span v-if="scope.row.processState==='0'" class="rovalsState">
+              <span v-if="scope.row.processState === '0'" class="rovalsState">
                 <em class="sub" />已提交
               </span>
-              <span v-if="scope.row.processState==='1'" class="rovalsState">
+              <span v-if="scope.row.processState === '1'" class="rovalsState">
                 <em class="stay" />审批中
               </span>
-              <span v-if="scope.row.processState==='2'" class="rovalsState">
+              <span v-if="scope.row.processState === '2'" class="rovalsState">
                 <em class="adopt" />审批通过
               </span>
-              <span v-if="scope.row.processState==='3'" class="rovalsState">
+              <span v-if="scope.row.processState === '3'" class="rovalsState">
                 <em class="reject" />审批不通过
               </span>
-              <span v-if="scope.row.processState==='4'" class="rovalsState">
+              <span v-if="scope.row.processState === '4'" class="rovalsState">
                 <em class="revoke" />撤销
               </span>
             </template>
@@ -79,38 +87,49 @@
             <template slot-scope="scope">
               <!--  && (item.row.stateOfApproval == '待审批' || item.row.stateOfApproval == '已驳回') -->
               <el-button
-                v-show="(tagName == 'launch')&&(scope.row.processState==='1')"
+                v-show="tagName == 'launch' && scope.row.processState === '1'"
                 size="mini"
                 type="text"
-                @click="clickPass('4',scope.row.processId)"
+                @click="clickPass('4', scope.row.processId)"
               >撤销</el-button>
               <!--  && item.row.currentApproverId == userId -->
               <el-button
-                v-show="(tagName == 'copy' || tagName == 'approvals')&&(scope.row.processState==='1')"
+                v-show="
+                  (tagName == 'copy' || tagName == 'approvals') &&
+                    scope.row.processState === '1'
+                "
                 size="mini"
                 type="text"
-                @click="clickPass('2',scope.row.processId)"
+                @click="clickPass('2', scope.row.processId)"
               >通过</el-button>
               <!--  && item.row.currentApproverId == userId -->
               <el-button
-                v-show="(tagName == 'copy' || tagName == 'approvals')&&(scope.row.processState==='1')"
+                v-show="
+                  (tagName == 'copy' || tagName == 'approvals') &&
+                    scope.row.processState === '1'
+                "
                 size="mini"
                 type="text"
-                @click="clickPass('3',scope.row.processId)"
+                @click="clickPass('3', scope.row.processId)"
               >驳回</el-button>
               <el-button
                 size="mini"
                 type="text"
-                @click="clickDetail(scope.row.processId,scope.row.processName)"
+                @click="clickDetail(scope.row.processId, scope.row.processName)"
               >查看</el-button>
               <!-- <el-button size="mini" type="danger">打印</el-button> -->
             </template>
           </el-table-column>
         </el-table>
-        <el-row type="flex" justify="center" style="height:60px" align="middle">
+        <el-row
+          type="flex"
+          justify="center"
+          style="height: 60px"
+          align="middle"
+        >
           <el-pagination
             :total="Number(total)"
-            :page-sizes="[10,20,30, 50]"
+            :page-sizes="[10, 20, 30, 50]"
             layout="prev, pager, next"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -119,7 +138,12 @@
       </div>
     </div>
     <!--查看弹框-->
-    <el-dialog :title="topLabel" :visible.sync="centerDialogVisible" width="50%" left>
+    <el-dialog
+      :title="topLabel"
+      :visible.sync="centerDialogVisible"
+      width="50%"
+      left
+    >
       <!-- <BecomeARegularWorker v-show="seeState == 'becomeARegularWorker'" /> -->
       <!-- <AdjustThePost v-show="seeState == 'adjustThePost'" /> -->
       <Quit
@@ -144,7 +168,7 @@
         :tab-lab="tagName"
         @closeDialog="closeDialog"
       />
-    <!-- <Employment v-show="seeState == 'employment'" /> -->
+      <!-- <Employment v-show="seeState == 'employment'" /> -->
     </el-dialog>
     <!--查看弹框-->
     <!-- 通过审核 -->
@@ -284,10 +308,9 @@ export default {
       this.getApprovalList()
     },
     clickCancel(id) {
-      this.$confirm('是否撤销该流程')
-        .then(() => {
-          this.delProcess(id)
-        })
+      this.$confirm('是否撤销该流程').then(() => {
+        this.delProcess(id)
+      })
     },
     clickPass(num, id) {
       this.adoptVisible = true
@@ -307,10 +330,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning',
         center: true
+      }).then(() => {
+        this.rejectProcess(id)
       })
-        .then(() => {
-          this.rejectProcess(id)
-        })
     },
     clickDetail(id, approvalType) {
       this.centerDialogVisible = true
@@ -355,10 +377,9 @@ export default {
       this.getApprovalList()
     },
     handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
+      this.$confirm('确认关闭？').then((_) => {
+        done()
+      })
     }
   }
 }
@@ -416,7 +437,8 @@ export default {
   text-align: right;
   margin-top: 10px;
 }
-.el-textarea__inner{ // 然后找到对应的类名，在这里将拉伸去掉即可
+.el-textarea__inner {
+  // 然后找到对应的类名，在这里将拉伸去掉即可
   resize: none;
-  }
+}
 </style>

@@ -11,10 +11,10 @@
       </div>
       <div>
         <el-form ref="myInfo" :model="myInfo" label-width="80px">
-          <el-form-item label="姓名" style="width: 300px;">
+          <el-form-item label="姓名" style="width: 300px">
             <el-input v-model="myInfo.username" />
           </el-form-item>
-          <el-form-item label="手机号" style="width: 300px;">
+          <el-form-item label="手机号" style="width: 300px">
             <el-input v-model="myInfo.mobile" />
           </el-form-item>
           <el-form-item label="性别">
@@ -24,7 +24,12 @@
             </el-select>
           </el-form-item>
           <el-form-item label="出生日期">
-            <el-date-picker v-model="myInfo.dateOfBirth" type="date" format="yyyy-MM-dd" placeholder="选择日期" />
+            <el-date-picker
+              v-model="myInfo.dateOfBirth"
+              type="date"
+              format="yyyy-MM-dd"
+              placeholder="选择日期"
+            />
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">保存</el-button>
@@ -85,7 +90,7 @@ export default {
 @import "@/styles/variables.scss";
 .myInfo {
   padding: 15px;
-  margin-top:15px;
+  margin-top: 15px;
   .myInfoTop {
     color: #666;
     background: #fff;
@@ -99,7 +104,7 @@ export default {
     }
     .act {
       color: $blue;
-      border-bottom: solid 2px  $blue;
+      border-bottom: solid 2px $blue;
     }
   }
   .myInfoCont {

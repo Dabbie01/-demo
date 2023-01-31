@@ -11,7 +11,11 @@
         />
       </div> -->
       <!-- <el-input v-model="requestParameters.keyword" placeholder="请输入姓名" @click="handleSearch"></el-input> -->
-      <a class="el-button fr el-button--primary el-button--mini" title="导出" @click="handelFileDownload">导出</a>
+      <a
+        class="el-button fr el-button--primary el-button--mini"
+        title="导出"
+        @click="handelFileDownload"
+      >导出</a>
     </div>
     <el-table
       :key="tableKey"
@@ -20,7 +24,7 @@
       element-loading-text="给我一点时间"
       fit
       highlight-current-row
-      style="width: 100%; margin-top:10px;"
+      style="width: 100%; margin-top: 10px"
       border
     >
       <el-table-column prop="name" label="姓名" width="120" />
@@ -32,10 +36,22 @@
       <el-table-column prop="normalDays" label="正常" width="100" />
       <el-table-column prop="laterTimes" label="迟到次数" width="100" />
       <el-table-column prop="earlyTimes" label="早退次数" width="100" />
-      <el-table-column prop="averageDailyNaturalDays" label="日均时长" width="150" />
+      <el-table-column
+        prop="averageDailyNaturalDays"
+        label="日均时长"
+        width="150"
+      />
       <el-table-column prop="absenceDays" label="旷工天数" width="100" />
-      <el-table-column prop="whetherItIsFullOfWork" label="是否全勤" width="100" />
-      <el-table-column prop="actualAttendanceDaysAreOfficial" label="实际出勤天数" width="180" />
+      <el-table-column
+        prop="whetherItIsFullOfWork"
+        label="是否全勤"
+        width="100"
+      />
+      <el-table-column
+        prop="actualAttendanceDaysAreOfficial"
+        label="实际出勤天数"
+        width="180"
+      />
       <el-table-column prop="attendanceDay" label="应出勤工作日" width="120" />
       <el-table-column prop="salaryStandard" label="计薪标准" width="100" />
       <el-table-column prop="officialSalaryDays" label="计薪天数" width="150" />
@@ -53,11 +69,29 @@
     <!-- end -->
     <!-- 数据表格 / -->
     <div class="butList">
-      <el-tooltip class="item" effect="dark" content="将当前报表存放至归档，归档可以多次，但只保留最后一次" placement="top-start">
-        <el-button type="primary" size="small" @click="archivingReportForm">归档{{ month }}月份报表</el-button>
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="将当前报表存放至归档，归档可以多次，但只保留最后一次"
+        placement="top-start"
+      >
+        <el-button
+          type="primary"
+          size="small"
+          @click="archivingReportForm"
+        >归档{{ month }}月份报表</el-button>
       </el-tooltip>
-      <el-tooltip class="item" effect="dark" content="开始做下月考勤" placement="top-start">
-        <el-button type="primary" size="small" @click="createReportForm">新建报表</el-button>
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="开始做下月考勤"
+        placement="top-start"
+      >
+        <el-button
+          type="primary"
+          size="small"
+          @click="createReportForm"
+        >新建报表</el-button>
       </el-tooltip>
       <!-- <el-button @click="handleRest">取消</el-button> -->
     </div>
@@ -99,13 +133,9 @@ export default {
     list() {
       const search = this.requestParameters.keyword
       if (search) {
-        return this.dataList.filter(data => {
-          return Object.keys(data).some(key => {
-            return (
-              String(data[key])
-                .toLowerCase()
-                .indexOf(search) > -1
-            )
+        return this.dataList.filter((data) => {
+          return Object.keys(data).some((key) => {
+            return String(data[key]).toLowerCase().indexOf(search) > -1
           })
         })
       }
@@ -120,7 +150,7 @@ export default {
   // 组件更新
   methods: {
     // 业务方法
-    async  reportFormList(params) {
+    async reportFormList(params) {
       this.loading = true
       this.dataList = await reportFormList(this.requestParameters)
       this.loading = false
@@ -139,11 +169,10 @@ export default {
       this.$confirm(
         '该月报表已归档过，重新归档将覆盖上一份报表，您确认要再次归档吗？',
         '归档' + this.month + '报表'
-      )
-        .then(async() => {
-          await archives(atteDate)
-          this.$message.success('归档成功')
-        })
+      ).then(async() => {
+        await archives(atteDate)
+        this.$message.success('归档成功')
+      })
     },
     // 新建报表
     createReportForm() {
@@ -152,16 +181,16 @@ export default {
           this.month +
           '月报表不能修改，且您上一次归档之后的修改将不会被保存。您确定现在就开始做下月考勤吗？',
         '新建' + parseInt(Number(this.month) + Number(1)) + '报表'
-      )
-        .then(async() => {
-          // const nextMonth = this.getNextMonth(this.yearMonth)
-          var atteTime = this.month.substring(0, 4) + '-' + this.month.substring(4)
-          atteTime = this.getNextMonth(atteTime).datas.replace('-', '')
-          this.requestParameters.yearMonth = atteTime
-          await newReports(this.requestParameters)
-          this.$message.success('新建报表成功！')
-          this.$router.push('/attendances')
-        })
+      ).then(async() => {
+        // const nextMonth = this.getNextMonth(this.yearMonth)
+        var atteTime =
+          this.month.substring(0, 4) + '-' + this.month.substring(4)
+        atteTime = this.getNextMonth(atteTime).datas.replace('-', '')
+        this.requestParameters.yearMonth = atteTime
+        await newReports(this.requestParameters)
+        this.$message.success('新建报表成功！')
+        this.$router.push('/attendances')
+      })
     },
     // 获取下一个月
     getNextMonth: function(date) {
@@ -201,10 +230,44 @@ export default {
     // 下载文件
     handelFileDownload() {
       try {
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['姓名', '工号', '手机号', '部门', '事假', '调休', '正常', '迟到次数', '早退次数', '日均时长', '旷工天数', '是否全勤', '实际出勤天数', '应出勤工作日', '计薪标准', '计薪天数'] // 表头 必填
+        import('@/vendor/Export2Excel').then((excel) => {
+          const tHeader = [
+            '姓名',
+            '工号',
+            '手机号',
+            '部门',
+            '事假',
+            '调休',
+            '正常',
+            '迟到次数',
+            '早退次数',
+            '日均时长',
+            '旷工天数',
+            '是否全勤',
+            '实际出勤天数',
+            '应出勤工作日',
+            '计薪标准',
+            '计薪天数'
+          ] // 表头 必填
 
-          const filterVal = ['name', 'workNumber', 'mobile', 'department', 'leaveDays', 'dayOffLeaveDays', 'normalDays', 'laterTimes', 'earlyTimes', 'averageDailyNaturalDays', 'absenceDays', 'whetherItIsFullOfWork', 'actualAttendanceDaysAreOfficial', 'attendanceDay', 'salaryStandard', 'officialSalaryDays']
+          const filterVal = [
+            'name',
+            'workNumber',
+            'mobile',
+            'department',
+            'leaveDays',
+            'dayOffLeaveDays',
+            'normalDays',
+            'laterTimes',
+            'earlyTimes',
+            'averageDailyNaturalDays',
+            'absenceDays',
+            'whetherItIsFullOfWork',
+            'actualAttendanceDaysAreOfficial',
+            'attendanceDay',
+            'salaryStandard',
+            'officialSalaryDays'
+          ]
           const data = this.formatJson(filterVal, this.dataList)
           excel.export_json_to_excel({
             header: tHeader,
@@ -220,9 +283,11 @@ export default {
       }
     },
     formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        return v[j]
-      }))
+      return jsonData.map((v) =>
+        filterVal.map((j) => {
+          return v[j]
+        })
+      )
     }
   }
 }
@@ -234,7 +299,7 @@ export default {
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-@import '../../../styles/variables.scss';
+@import "../../../styles/variables.scss";
 .butList {
   // border-top: solid 1px #f4f4f4;
   margin-top: 15px;

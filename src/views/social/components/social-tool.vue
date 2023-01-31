@@ -1,20 +1,52 @@
+<!--
+ * @Author: Dabbie 2310734576@qq.com
+ * @Date: 2023-01-25 16:37:23
+ * @LastEditors: Dabbie 2310734576@qq.com
+ * @LastEditTime: 2023-01-31 15:12:01
+ * @FilePath: \bg-system\src\views\social\components\social-tool.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <div class="cont-top-box">
     <el-form label-width="100px">
       <el-form-item label="部门">
-        <el-checkbox-group v-model="departmentChecks" style="display:inline-block">
-          <el-checkbox v-for="item in departmentList" :key="item.id" :label="item.id" @change="checkChange">{{ item.name }}</el-checkbox>
+        <el-checkbox-group
+          v-model="departmentChecks"
+          style="display: inline-block"
+        >
+          <el-checkbox
+            v-for="item in departmentList"
+            :key="item.id"
+            :label="item.id"
+            @change="checkChange"
+          >{{ item.name }}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <el-form-item label="社保城市">
-        <el-checkbox-group v-model="socialSecurityChecks" style="display:inline-block">
-          <el-checkbox v-for="item in cityList" :key="item.id" :label="item.id" @change="checkChange">{{ item.name }}</el-checkbox>
+        <el-checkbox-group
+          v-model="socialSecurityChecks"
+          style="display: inline-block"
+        >
+          <el-checkbox
+            v-for="item in cityList"
+            :key="item.id"
+            :label="item.id"
+            @change="checkChange"
+          >{{ item.name }}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
 
       <el-form-item label="公积金城市">
-        <el-checkbox-group v-model="providentFundChecks" style="display:inline-block">
-          <el-checkbox v-for="item in cityList" :key="item.id" :label="item.id" @change="checkChange">{{ item.name }}</el-checkbox>
+        <el-checkbox-group
+          v-model="providentFundChecks"
+          style="display: inline-block"
+        >
+          <el-checkbox
+            v-for="item in cityList"
+            :key="item.id"
+            :label="item.id"
+            @change="checkChange"
+          >{{ item.name }}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
     </el-form>
@@ -54,11 +86,12 @@ export default {
     },
     checkChange() {
       const selectParams = {
-        'departmentChecks': this.departmentChecks,
-        'socialSecurityChecks': this.socialSecurityChecks,
-        'providentFundChecks': this.providentFundChecks
+        departmentChecks: this.departmentChecks,
+        socialSecurityChecks: this.socialSecurityChecks,
+        providentFundChecks: this.providentFundChecks
       }
-      this.$parent.changeSelectParams && this.$parent.changeSelectParams(selectParams)
+      this.$parent.changeSelectParams &&
+        this.$parent.changeSelectParams(selectParams)
     }
   }
 }
@@ -71,5 +104,4 @@ export default {
   border-radius: 3px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
-
 </style>

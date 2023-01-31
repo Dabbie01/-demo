@@ -25,9 +25,7 @@
         label-width="120px"
         class="demo-ruleForm"
       >
-        <el-form-item label="补偿方式" prop="types">
-          调休
-        </el-form-item>
+        <el-form-item label="补偿方式" prop="types"> 调休 </el-form-item>
         <el-form-item label="加班开始时间" prop="timeValue">
           <el-date-picker
             v-model="ruleForm.data.start_time"
@@ -50,31 +48,40 @@
           <el-input
             v-model="ruleForm.data.reason"
             type="textarea"
-            style="width: 400px;"
+            style="width: 400px"
             placeholder="显示加班人填写的加班原因"
             :disabled="computeOpType"
           />
         </el-form-item>
-        <div class="buttones" style="text-align: center;margin-top: 40px">
+        <div class="buttones" style="text-align: center; margin-top: 40px">
           <el-form-item>
             <el-button
-              v-show="(ruleForm.state == 0 || ruleForm.state == 1) && tabLab =='launch'"
+              v-show="
+                (ruleForm.state == 0 || ruleForm.state == 1) &&
+                  tabLab == 'launch'
+              "
               type="primary"
               @click="btnClick"
             >撤销</el-button>
             <el-button
-              v-show="(ruleForm.state == 0 || ruleForm.state == 1) && tabLab =='approvals'"
+              v-show="
+                (ruleForm.state == 0 || ruleForm.state == 1) &&
+                  tabLab == 'approvals'
+              "
               type="primary"
               @click="btnPass"
             >通过</el-button>
             <el-button
-              v-show="(ruleForm.state == 0 || ruleForm.state == 1) && tabLab =='approvals'"
+              v-show="
+                (ruleForm.state == 0 || ruleForm.state == 1) &&
+                  tabLab == 'approvals'
+              "
               type="primary"
               @click="btnReject"
             >驳回</el-button>
             <!-- </el-form-item> -->
             <el-button
-              v-show="ruleForm.stateOfApproval == 4 && tabLab =='launch'"
+              v-show="ruleForm.stateOfApproval == 4 && tabLab == 'launch'"
               type="primary"
               @click="btnSave"
             >提交</el-button>
@@ -103,7 +110,8 @@ export default {
     tabLab: {
       type: String,
       default: ''
-    }},
+    }
+  },
   data() {
     return {
       id: '',

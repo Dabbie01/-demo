@@ -9,7 +9,12 @@
       enctype="multipart/form-data"
     >
       <el-form-item label="假期类型">
-        <el-select v-model="ruleForm.holidayType" placeholder="请选择" style="width: 220px;" @change="handleChange">
+        <el-select
+          v-model="ruleForm.holidayType"
+          placeholder="请选择"
+          style="width: 220px"
+          @change="handleChange"
+        >
           <el-option
             v-for="item in baseData.leaveType"
             :key="item.id"
@@ -28,7 +33,7 @@
             type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss"
             placeholder="选择日期"
-            style="width: 340px;"
+            style="width: 340px"
           />
         </el-col>
       </el-form-item>
@@ -39,27 +44,30 @@
             type="datetime"
             value-format="yyyy-MM-dd HH:mm:ss"
             placeholder="选择日期"
-            style="width: 340px;"
+            style="width: 340px"
           />
         </el-col>
       </el-form-item>
-      <el-form-item v-if="state===&quot;1&quot;" label="请假时长">
-        <el-input v-model="ruleForm.duration" style="width: 340px;" />
+      <el-form-item v-if="state === '1'" label="请假时长">
+        <el-input v-model="ruleForm.duration" style="width: 340px" />
       </el-form-item>
-      <el-form-item v-if="state===&quot;0&quot;" label="申请天数">
-        <el-input v-model="ruleForm.duration" style="width: 340px;" />
+      <el-form-item v-if="state === '0'" label="申请天数">
+        <el-input v-model="ruleForm.duration" style="width: 340px" />
       </el-form-item>
       <el-form-item label="申请理由" prop="reason">
         <el-input
           v-model="ruleForm.reason"
           type="textarea"
-          style="width: 340px;"
-          :autosize="{ minRows: 3, maxRows: 8}"
+          style="width: 340px"
+          :autosize="{ minRows: 3, maxRows: 8 }"
           placeholder="请输入内容"
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+        <el-button
+          type="primary"
+          @click="submitForm('ruleForm')"
+        >提交</el-button>
         <el-button @click="resetForm()">重置</el-button>
       </el-form-item>
     </el-form>
@@ -113,7 +121,9 @@ export default {
     computeDuration() {
       let duration = 0
       if (this.ruleForm.start_time && this.ruleForm.end_time) {
-        const durationStamp = (new Date(this.ruleForm.end_time)).valueOf() - (new Date(this.ruleForm.start_time)).valueOf()
+        const durationStamp =
+          new Date(this.ruleForm.end_time).valueOf() -
+          new Date(this.ruleForm.start_time).valueOf()
         const fourHours = 1000 * 60 * 60 * 4
         const total = Math.floor(durationStamp / fourHours)
         duration = Math.floor(total / 2) + (total % 2) * 0.5
@@ -121,8 +131,7 @@ export default {
       return duration
     }
   },
-  created() {
-  },
+  created() {},
   methods: {
     handleRemove(file, fileList) {
       console.log(file, fileList)
@@ -133,7 +142,7 @@ export default {
     },
     submitForm(name) {
       console.log(this.ruleForm)
-      startProcess(this.ruleForm).then(res => {
+      startProcess(this.ruleForm).then((res) => {
         if (res.data.success) {
           this.$message.success(res.data.message)
           this.$emit('handleShow')

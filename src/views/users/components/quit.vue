@@ -25,7 +25,6 @@
         label-width="120px"
         class="demo-ruleForm"
       >
-
         <el-form-item label="期望离职时间：" prop="expectedDepartureTime">
           <el-date-picker
             v-model="ruleForm.data.exceptTime"
@@ -39,30 +38,39 @@
           <el-input
             v-model="ruleForm.data.reason"
             type="textarea"
-            style="width: 400px;"
+            style="width: 400px"
             placeholder="显示提交人填写的离职原因"
             :disabled="computeOpType"
           />
         </el-form-item>
-        <div class="buttones" style="text-align: center;margin-top: 40px">
+        <div class="buttones" style="text-align: center; margin-top: 40px">
           <el-form-item>
             <el-button
-              v-show="(ruleForm.state == 0 || ruleForm.state == 1) && tabLab =='launch'"
+              v-show="
+                (ruleForm.state == 0 || ruleForm.state == 1) &&
+                  tabLab == 'launch'
+              "
               type="primary"
               @click="btnClick"
             >撤销</el-button>
             <el-button
-              v-show="(ruleForm.state == 0 || ruleForm.state == 1) && tabLab =='approvals'"
+              v-show="
+                (ruleForm.state == 0 || ruleForm.state == 1) &&
+                  tabLab == 'approvals'
+              "
               type="primary"
               @click="btnPass"
             >通过</el-button>
             <el-button
-              v-show="(ruleForm.state == 0 || ruleForm.state == 1) && tabLab =='approvals'"
+              v-show="
+                (ruleForm.state == 0 || ruleForm.state == 1) &&
+                  tabLab == 'approvals'
+              "
               type="primary"
               @click="btnReject"
             >驳回</el-button>
             <el-button
-              v-show="ruleForm.state == 4 && tabLab =='launch'"
+              v-show="ruleForm.state == 4 && tabLab == 'launch'"
               type="primary"
               @click="btnSave"
             >提交</el-button>

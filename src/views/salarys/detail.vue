@@ -70,8 +70,7 @@ export default {
       },
       userId: this.$route.params.id,
       yearMonth: this.$route.params.yearMonth,
-      formLabelAlign: {
-      }
+      formLabelAlign: {}
     }
   },
   computed: {
@@ -109,15 +108,33 @@ export default {
   },
   methods: {
     init() {
-      getAtteArchiveDetail({ userId: this.userId, yearMonth: this.yearMonth }).then(res => {
-        this.atteData = res || {}
-        return getSettings()
-      }).then(res => {
-        this.paymentData.p1 = this.calMoney(res.housingSubsidyScheme, res.housingSubsidyAmount, this.atteData.actualAtteOfficialDays)
-        this.paymentData.p2 = this.calMoney(res.transportationSubsidyScheme, res.transportationSubsidyAmount, this.atteData.actualAtteOfficialDays)
-        this.paymentData.p3 = this.calMoney(res.communicationSubsidyScheme, res.communicationSubsidyAmount, this.atteData.actualAtteOfficialDays)
-        this.paymentData.p4 = this.calMoney(res.lunchAllowanceScheme, res.lunchAllowanceAmount, this.atteData.actualAtteOfficialDays)
-      })
+      getAtteArchiveDetail({ userId: this.userId, yearMonth: this.yearMonth })
+        .then((res) => {
+          this.atteData = res || {}
+          return getSettings()
+        })
+        .then((res) => {
+          this.paymentData.p1 = this.calMoney(
+            res.housingSubsidyScheme,
+            res.housingSubsidyAmount,
+            this.atteData.actualAtteOfficialDays
+          )
+          this.paymentData.p2 = this.calMoney(
+            res.transportationSubsidyScheme,
+            res.transportationSubsidyAmount,
+            this.atteData.actualAtteOfficialDays
+          )
+          this.paymentData.p3 = this.calMoney(
+            res.communicationSubsidyScheme,
+            res.communicationSubsidyAmount,
+            this.atteData.actualAtteOfficialDays
+          )
+          this.paymentData.p4 = this.calMoney(
+            res.lunchAllowanceScheme,
+            res.lunchAllowanceAmount,
+            this.atteData.actualAtteOfficialDays
+          )
+        })
       this.getUserDetailById() // 获取用户数据
       this.getSalaryDetail() // 工资数据
       this.getHistorysData() // 社保历史
@@ -126,7 +143,10 @@ export default {
       this.formLabelAlign = await getSalaryDetail(this.userId)
     },
     async getHistorysData() {
-      this.socialData = await getHistorysData({ userId: this.userId, yearMonth: this.yearMonth })
+      this.socialData = await getHistorysData({
+        userId: this.userId,
+        yearMonth: this.yearMonth
+      })
     },
     async getUserDetailById() {
       this.user = await getUserDetailById(this.userId)
@@ -145,186 +165,187 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "./../../styles/variables";
-  .detailsContainer{
-    display: flex;
-    padding: 15px;
-    .contLeft{
-      flex: 4;
-      background: #fff;
-      margin-right: 10px;
-      padding: 20px;
-      .topTit{
-        display: flex;
-        padding-bottom: 10px;
-        img{
-          width: 100px;
-          height: 100px;
-          border-radius: 50%;
-        }
-        .more{
-          display: inline-block;
-          position: relative;
-          text-align: center;
-          width: 16px;
-          line-height: 14px;
-          font-size: 12px;
-          top: -1px;
-          left: 5px;
-          border: solid 1px #666;
-          color:#666;
-          border-radius: 50px;
-        }
-        .info{
-          margin-left: 10px;
-          line-height: 25px;
-          .name{
-            span{
-              // background: $green1;
-              color:#fff;
-              padding: 4px 10px;
-              border-radius: 3px;
-              margin-left: 10px;
-              font-size: 12px;
-            }
-          }
-          .time{
-            ul{
-              position: relative;
-              display: inline-block;
-              li{
-                position: absolute;
-                border-radius: 3px;
-                box-shadow: 1px 2px 2px #ccc;
-                top: 34px;
-                left: -43px;
-                width: 500px;
-                padding:5px 10px;
-                line-height: 20px;
-                display: none;
-                background: #fff;
-                border: solid 1px #ccc;
-              }
-              li::before{
-                position:absolute;
-                content: '∧';
-                left: 50px;
-                top: -15px;
-                background: #fff;
-                color:#ccc;
-              }
-            }
-            ul:hover li{
-              display: block;
-            }
-          }
-        }
+@import "./../../styles/variables";
+.detailsContainer {
+  display: flex;
+  padding: 15px;
+  .contLeft {
+    flex: 4;
+    background: #fff;
+    margin-right: 10px;
+    padding: 20px;
+    .topTit {
+      display: flex;
+      padding-bottom: 10px;
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
       }
-      .social{
-        padding-bottom: 10px;
-        .title{
-          line-height: 40px;
-        }
-        .table{
-          display: table;
-          background: #f9f9f9;
-          padding: 20px;
-          line-height: 30px;
-          width: 100%;
-          text-align: center;
-          .tabTit{
-            display: table-row;
-            font-weight: bold;
-            div{
-              display: table-cell;
-            }
-          }
-          .tabRow{
-            display: table-row;
-            width: 100%;
-            div{
-              display: table-cell;
-            }
-          }
-        }
+      .more {
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        width: 16px;
+        line-height: 14px;
+        font-size: 12px;
+        top: -1px;
+        left: 5px;
+        border: solid 1px #666;
+        color: #666;
+        border-radius: 50px;
       }
-      .fund{
-        padding-bottom: 10px;
-        .title{
-          line-height: 40px;
-          span{
+      .info {
+        margin-left: 10px;
+        line-height: 25px;
+        .name {
+          span {
+            // background: $green1;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 3px;
+            margin-left: 10px;
+            font-size: 12px;
+          }
+        }
+        .time {
+          ul {
+            position: relative;
             display: inline-block;
-            padding: 0 80px;
-          }
-        }
-        .table{
-          display: table;
-          background: #f9f9f9;
-          padding: 20px;
-          line-height: 30px;
-          width: 100%;
-          text-align: center;
-          .tabTit{
-            display: table-row;
-            font-weight: bold;
-            div{
-              display: table-cell;
+            li {
+              position: absolute;
+              border-radius: 3px;
+              box-shadow: 1px 2px 2px #ccc;
+              top: 34px;
+              left: -43px;
+              width: 500px;
+              padding: 5px 10px;
+              line-height: 20px;
+              display: none;
+              background: #fff;
+              border: solid 1px #ccc;
+            }
+            li::before {
+              position: absolute;
+              content: "∧";
+              left: 50px;
+              top: -15px;
+              background: #fff;
+              color: #ccc;
             }
           }
-          .tabRow{
-            display: table-row;
-            width: 100%;
-            div{
-              display: table-cell;
-            }
+          ul:hover li {
+            display: block;
           }
         }
-      }
-      .formTable{
-        margin-top: 20px;
       }
     }
-    .contRit{
-      flex: 1;
-      background: #fff;
-      padding:0 20px;
-      .topTit{
-        margin-bottom: 10px;
-        border-bottom: solid 1px #ccc;
+    .social {
+      padding-bottom: 10px;
+      .title {
         line-height: 40px;
       }
-      .Items{
-        padding: 20px 0;
-        li{
-          display: flex;
-          .name{
-            position: relative;
-            text-align: center;
-            line-height: 24px;
-            padding: 0 0 10px 0;
-            flex: 2;
-            border-right:solid 1px #ccc;
+      .table {
+        display: table;
+        background: #f9f9f9;
+        padding: 20px;
+        line-height: 30px;
+        width: 100%;
+        text-align: center;
+        .tabTit {
+          display: table-row;
+          font-weight: bold;
+          div {
+            display: table-cell;
           }
-          .name:after{
-            content: ' ';
-            border-radius: 50%;
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            border:solid 2px $green1;
-            right: -5px;
-            top:0px;
-            background: #fff;
+        }
+        .tabRow {
+          display: table-row;
+          width: 100%;
+          div {
+            display: table-cell;
           }
-          .act{
-            flex: 1;
-            text-align: center;
+        }
+      }
+    }
+    .fund {
+      padding-bottom: 10px;
+      .title {
+        line-height: 40px;
+        span {
+          display: inline-block;
+          padding: 0 80px;
+        }
+      }
+      .table {
+        display: table;
+        background: #f9f9f9;
+        padding: 20px;
+        line-height: 30px;
+        width: 100%;
+        text-align: center;
+        .tabTit {
+          display: table-row;
+          font-weight: bold;
+          div {
+            display: table-cell;
           }
+        }
+        .tabRow {
+          display: table-row;
+          width: 100%;
+          div {
+            display: table-cell;
+          }
+        }
+      }
+    }
+    .formTable {
+      margin-top: 20px;
+    }
+  }
+  .contRit {
+    flex: 1;
+    background: #fff;
+    padding: 0 20px;
+    .topTit {
+      margin-bottom: 10px;
+      border-bottom: solid 1px #ccc;
+      line-height: 40px;
+    }
+    .Items {
+      padding: 20px 0;
+      li {
+        display: flex;
+        .name {
+          position: relative;
+          text-align: center;
+          line-height: 24px;
+          padding: 0 0 10px 0;
+          flex: 2;
+          border-right: solid 1px #ccc;
+        }
+        .name:after {
+          content: " ";
+          border-radius: 50%;
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          border: solid 2px $green1;
+          right: -5px;
+          top: 0px;
+          background: #fff;
+        }
+        .act {
+          flex: 1;
+          text-align: center;
         }
       }
     }
   }
-.job-txt-green,.job-txt-red {
+}
+.job-txt-green,
+.job-txt-red {
   // display: inline-block;
   position: relative;
   padding: 3px;

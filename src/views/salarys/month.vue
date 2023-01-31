@@ -17,33 +17,99 @@
             >导出</a>
           </div>
         </div>
-        <el-table id="item" :data="contentData" border style="width: 100%;text-align: center">
+        <el-table
+          id="item"
+          :data="contentData"
+          border
+          style="width: 100%; text-align: center"
+        >
           <el-table-column type="index" label="序号" center width="50" />
           <el-table-column prop="username" label="姓名" width="150px" />
           <el-table-column prop="mobile" label="手机号" width="150px" />
           <el-table-column prop="workNumber" label="工号" width="150px" />
-          <el-table-column prop="departmentName" label="部门名称" width="150px" />
-          <el-table-column prop="inServiceStatus" :formatter="inService" label="在职状态" width="150px" />
-          <el-table-column prop="providentFundIndividual" label="公积金个人" width="150px" />
-          <el-table-column prop="socialSecurityIndividual" label="社保个人" width="150px" />
-          <el-table-column prop="socialSecurityEnterprise" label="社保企业" width="150px" />
-          <el-table-column prop="providentFundEnterprises" label="公积金企业" width="150px" />
-          <el-table-column prop="socialSecurityProvidentFundEnterprises" label="公积金社保企业" width="150px" />
-          <el-table-column prop="currentBaseSalary" label="基本工资" width="150px" />
-          <el-table-column prop="currentBaseSalary" label="岗位工资" width="150px" />
-          <el-table-column prop="salaryChangeAmount" label="福利津贴" width="150px" />
-          <el-table-column prop="attendanceDeductionMonthly" label="考勤扣款" width="150px" />
-          <el-table-column prop="currentSalaryTotalBase" label="税前工资合计" width="150px" />
-          <el-table-column prop="salaryByTax" label="应纳税工资" width="150px" />
+          <el-table-column
+            prop="departmentName"
+            label="部门名称"
+            width="150px"
+          />
+          <el-table-column
+            prop="inServiceStatus"
+            :formatter="inService"
+            label="在职状态"
+            width="150px"
+          />
+          <el-table-column
+            prop="providentFundIndividual"
+            label="公积金个人"
+            width="150px"
+          />
+          <el-table-column
+            prop="socialSecurityIndividual"
+            label="社保个人"
+            width="150px"
+          />
+          <el-table-column
+            prop="socialSecurityEnterprise"
+            label="社保企业"
+            width="150px"
+          />
+          <el-table-column
+            prop="providentFundEnterprises"
+            label="公积金企业"
+            width="150px"
+          />
+          <el-table-column
+            prop="socialSecurityProvidentFundEnterprises"
+            label="公积金社保企业"
+            width="150px"
+          />
+          <el-table-column
+            prop="currentBaseSalary"
+            label="基本工资"
+            width="150px"
+          />
+          <el-table-column
+            prop="currentBaseSalary"
+            label="岗位工资"
+            width="150px"
+          />
+          <el-table-column
+            prop="salaryChangeAmount"
+            label="福利津贴"
+            width="150px"
+          />
+          <el-table-column
+            prop="attendanceDeductionMonthly"
+            label="考勤扣款"
+            width="150px"
+          />
+          <el-table-column
+            prop="currentSalaryTotalBase"
+            label="税前工资合计"
+            width="150px"
+          />
+          <el-table-column
+            prop="salaryByTax"
+            label="应纳税工资"
+            width="150px"
+          />
           <el-table-column prop="tax" label="应扣税" width="150px" />
           <el-table-column prop="payment" label="实发工资" width="150px" />
         </el-table>
       </div>
     </div>
-    <el-row type="flex" justify="center" align="middle" style="height:60px">
+    <el-row type="flex" justify="center" align="middle" style="height: 60px">
       <el-col :span="12">
-        <el-button size="small" type="primary" @click="archivingReportForm">归档{{ yearMonth ? yearMonth.substr(4) : '' }}报表</el-button>
-        <el-button size="small" type="primary" @click="createReportForm">新建报表</el-button>
+        <el-button
+          size="small"
+          type="primary"
+          @click="archivingReportForm"
+        >归档{{ yearMonth ? yearMonth.substr(4) : "" }}报表</el-button>
+        <el-button
+          size="small"
+          type="primary"
+          @click="createReportForm"
+        >新建报表</el-button>
         <el-button size="small" @click="$router.back()">取消</el-button>
       </el-col>
     </el-row>
@@ -51,7 +117,6 @@
 </template>
 
 <script>
-
 import {
   getArchivingCont,
   newReport
@@ -84,32 +149,32 @@ export default {
       this.$router.back(-1)
     },
     async archivingReport() {
-      const msg = '您确认归档当月报表吗？(报表归档将覆盖上一次归档记录，无法恢复)'
-      this.$confirm(msg, '归档' + this.yearMonth + '报表')
-        .then(() => {
-          this.$message.success('success')
-        })
+      const msg =
+        '您确认归档当月报表吗？(报表归档将覆盖上一次归档记录，无法恢复)'
+      this.$confirm(msg, '归档' + this.yearMonth + '报表').then(() => {
+        this.$message.success('success')
+      })
     },
     // 归档报表
     archivingReportForm() {
-      this.$confirm('您确认归档当月报表吗？')
-        .then(async() => {
-          // await getArchivingArchive({ yearMonth: this.yearMonth })
-          this.$message.success('归档成功')
-        })
+      this.$confirm('您确认归档当月报表吗？').then(async() => {
+        // await getArchivingArchive({ yearMonth: this.yearMonth })
+        this.$message.success('归档成功')
+      })
     },
     // 新建报表
     createReportForm() {
       const yearMonth = this.getNextMonth()
       const year = yearMonth.substring(0, 4)
       const month = yearMonth.substring(4)
-      this.$confirm(
-        '您将创建 《 ' + year + '年' + month + '月 》 报表').then(() => {
-        this.yearMonth = yearMonth
-        this.createNewReport(this.yearMonth)
-        this.$message.success('新建报表成功')
-        this.getArchivingCont()
-      })
+      this.$confirm('您将创建 《 ' + year + '年' + month + '月 》 报表').then(
+        () => {
+          this.yearMonth = yearMonth
+          this.createNewReport(this.yearMonth)
+          this.$message.success('新建报表成功')
+          this.getArchivingCont()
+        }
+      )
     },
     async createNewReport(yearMonth) {
       await newReport({ yearMonth })
@@ -129,9 +194,7 @@ export default {
       const t2 = year2 + month2
       return t2
     },
-    handleExport() {
-
-    }
+    handleExport() {}
   }
 }
 </script>

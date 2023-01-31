@@ -6,20 +6,25 @@
       </div>
       <div>
         <b>{{ sizeForm.user.username }}</b>
-        <span :class="dutyStatus?'job-txt-green':'job-txt-red'">{{ dutyStatusTxt }}</span>
+        <span :class="dutyStatus ? 'job-txt-green' : 'job-txt-red'">{{
+          dutyStatusTxt
+        }}</span>
         <br>
         <p>
-          <span>最新工资基数 {{ sizeForm.salaryBase }}  </span>
+          <span>最新工资基数 {{ sizeForm.salaryBase }} </span>
           &emsp;&emsp;
-          <span>入职时间   {{ sizeForm.user.timeOfEntry | formatDate }}</span>
+          <span>入职时间 {{ sizeForm.user.timeOfEntry | formatDate }}</span>
           &emsp;&emsp;
           <span>联系电话 {{ sizeForm.user.mobile }}</span>
         </p>
         <br>
         <p>
           本月不缴纳社保
-          <el-switch v-model="isPaySocialInMonth" active-color="#13ce66" inactive-color="#ff4949" />&emsp;&emsp;
-          本月不缴纳公积金
+          <el-switch
+            v-model="isPaySocialInMonth"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+          />&emsp;&emsp; 本月不缴纳公积金
           <el-switch
             v-model="isPayProvidentInMonth"
             active-color="#13ce66"
@@ -29,7 +34,13 @@
       </div>
     </div>
     <div class="detailContentBox">
-      <el-form ref="sizeForm.userSocialSecurity" :model="sizeForm.userSocialSecurity" :rules="rules" label-width="100px" size="mini">
+      <el-form
+        ref="sizeForm.userSocialSecurity"
+        :model="sizeForm.userSocialSecurity"
+        :rules="rules"
+        label-width="100px"
+        size="mini"
+      >
         <el-form-item label="参保城市" prop="participatingInTheCity">
           <el-select
             v-model="sizeForm.userSocialSecurity.participatingInTheCity"
@@ -37,17 +48,28 @@
             placeholder="请选择参保城市"
             @change="socialSecurityCityChange"
           >
-            <el-option v-for="item in cityList" :key="item.id" :label="item.name" :value="item" />
+            <el-option
+              v-for="item in cityList"
+              :key="item.id"
+              :label="item.name"
+              :value="item"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="社保类型" prop="socialSecurityType">
-          <el-select v-model="sizeForm.userSocialSecurity.socialSecurityType" placeholder="请选择社保类型">
+          <el-select
+            v-model="sizeForm.userSocialSecurity.socialSecurityType"
+            placeholder="请选择社保类型"
+          >
             <el-option label="首次开户" :value="1" />
             <el-option label="非首次开户" :value="2" />
           </el-select>
         </el-form-item>
         <el-form-item label="户籍类型" prop="householdRegistrationType">
-          <el-select v-model="sizeForm.userSocialSecurity.householdRegistrationType" placeholder="请选择户籍类型">
+          <el-select
+            v-model="sizeForm.userSocialSecurity.householdRegistrationType"
+            placeholder="请选择户籍类型"
+          >
             <el-option label="本市城镇" :value="1" />
             <el-option label="本市农村" :value="2" />
             <el-option label="外阜城镇" :value="3" />
@@ -55,25 +77,41 @@
           </el-select>
         </el-form-item>
         <el-form-item label="社保基数" prop="socialSecurityBase">
-          <el-input v-model="sizeForm.userSocialSecurity.socialSecurityBase" type="number" style="width:38%" />（基数范围是3387 ~ 25401）
+          <el-input
+            v-model="sizeForm.userSocialSecurity.socialSecurityBase"
+            type="number"
+            style="width: 38%"
+          />（基数范围是3387 ~ 25401）
         </el-form-item>
         <el-form-item label="工伤比例" prop="industrialInjuryRatio">
-          <el-input v-model="sizeForm.userSocialSecurity.industrialInjuryRatio" style="width:38%" type="number" />（比例范围是0.2％ ~ 3％，推荐0.2％）
+          <el-input
+            v-model="sizeForm.userSocialSecurity.industrialInjuryRatio"
+            style="width: 38%"
+            type="number"
+          />（比例范围是0.2％ ~ 3％，推荐0.2％）
         </el-form-item>
         <el-form-item label="社保缴纳">
-          <el-form-item label="个人" label-width="74px" style="display:inline-block">
+          <el-form-item
+            label="个人"
+            label-width="74px"
+            style="display: inline-block"
+          >
             <el-input
               v-model="personalPayment"
-              style="width:100%"
+              style="width: 100%"
               placeholder="个人"
               inline="true"
               :disabled="true"
             />
           </el-form-item>
-          <el-form-item label="公司" label-width="74px" style="display:inline-block">
+          <el-form-item
+            label="公司"
+            label-width="74px"
+            style="display: inline-block"
+          >
             <el-input
               v-model="companyPayment"
-              style="width:100%"
+              style="width: 100%"
               placeholder="企业"
               size="small"
               inline="true"
@@ -84,12 +122,16 @@
             <el-table-column label="缴费项目" prop="name" />
             <el-table-column label="企业基数">
               <template slot-scope="paymentItem">
-                <span v-show="paymentItem.row.switchCompany">{{ sizeForm.userSocialSecurity.socialSecurityBase }}</span>
+                <span v-show="paymentItem.row.switchCompany">{{
+                  sizeForm.userSocialSecurity.socialSecurityBase
+                }}</span>
               </template>
             </el-table-column>
             <el-table-column label="企业比例">
               <template slot-scope="paymentItem">
-                <span v-show="paymentItem.row.switchCompany">{{ paymentItem.row.scaleCompany }}%</span>
+                <span
+                  v-show="paymentItem.row.switchCompany"
+                >{{ paymentItem.row.scaleCompany }}%</span>
               </template>
             </el-table-column>
             <el-table-column label="企业缴纳">
@@ -103,12 +145,16 @@
             </el-table-column>
             <el-table-column label="个人基数">
               <template slot-scope="paymentItem">
-                <span v-show="paymentItem.row.switchPersonal">{{ sizeForm.socialSecurityBase }}</span>
+                <span v-show="paymentItem.row.switchPersonal">{{
+                  sizeForm.socialSecurityBase
+                }}</span>
               </template>
             </el-table-column>
             <el-table-column label="个人比例">
               <template slot-scope="paymentItem">
-                <span v-show="paymentItem.row.switchPersonal">{{ paymentItem.row.scalePersonal }}%</span>
+                <span
+                  v-show="paymentItem.row.switchPersonal"
+                >{{ paymentItem.row.scalePersonal }}%</span>
               </template>
             </el-table-column>
             <el-table-column label="个人缴纳">
@@ -129,23 +175,36 @@
             :rows="2"
             placeholder="1-300字符"
             maxlength="300"
-            style="width:38%"
+            style="width: 38%"
             show-word-limit
           />
         </el-form-item>
 
         <el-form-item label="公积金城市" prop="providentFundCity">
-          <el-select v-model="sizeForm.userSocialSecurity.providentFundCity" placeholder="请选择公积金城市" value-key="id">
-            <el-option v-for="item in cityList" :key="item.id" :label="item.name" :value="item" />
+          <el-select
+            v-model="sizeForm.userSocialSecurity.providentFundCity"
+            placeholder="请选择公积金城市"
+            value-key="id"
+          >
+            <el-option
+              v-for="item in cityList"
+              :key="item.id"
+              :label="item.name"
+              :value="item"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="公积金基数" prop="providentFundBase">
-          <el-input v-model="sizeForm.userSocialSecurity.providentFundBase" style="width:38%" type="number" />（基数范围是2273 ~ 25401）
+          <el-input
+            v-model="sizeForm.userSocialSecurity.providentFundBase"
+            style="width: 38%"
+            type="number"
+          />（基数范围是2273 ~ 25401）
         </el-form-item>
         <el-form-item label="企业比例" prop="enterpriseProportion">
           <el-input
             v-model="sizeForm.userSocialSecurity.enterpriseProportion"
-            style="width:38%"
+            style="width: 38%"
             placeholder="12"
             type="number"
           />（比例范围是5％ ~ 12％，推荐12％ ）
@@ -153,7 +212,7 @@
         <el-form-item label="个人比例" prop="personalProportion">
           <el-input
             v-model="sizeForm.userSocialSecurity.personalProportion"
-            style="width:38%"
+            style="width: 38%"
             placeholder="12"
             type="number"
           />（比例范围是5％ ~ 12％，推荐12％ ）
@@ -162,12 +221,12 @@
           <el-form-item
             label="个人"
             label-width="50px"
-            style="display:inline-block"
+            style="display: inline-block"
             prop="personalProvidentFundPayment"
           >
             <el-input
               v-model="sizeForm.userSocialSecurity.personalProvidentFundPayment"
-              style="width:100%"
+              style="width: 100%"
               placeholder="个人"
               inline="true"
               type="number"
@@ -176,18 +235,20 @@
           <el-form-item
             label="公司"
             label-width="50px"
-            style="display:inline-block"
+            style="display: inline-block"
             prop="enterpriseProvidentFundPayment"
           >
             <el-input
-              v-model="sizeForm.userSocialSecurity.enterpriseProvidentFundPayment"
-              style="width:100%"
+              v-model="
+                sizeForm.userSocialSecurity.enterpriseProvidentFundPayment
+              "
+              style="width: 100%"
               placeholder="企业"
               inline="true"
               type="number"
             />
           </el-form-item>
-          <el-form-item style="display:inline-block">
+          <el-form-item style="display: inline-block">
             <span>（为自动测算结果，可手动调整）</span>
           </el-form-item>
         </el-form-item>
@@ -197,7 +258,7 @@
             type="textarea"
             :rows="2"
             placeholder="1-300字符"
-            style="width:38%"
+            style="width: 38%"
             maxlength="300"
             show-word-limit
           />
@@ -353,19 +414,24 @@ export default {
     computePaymentItemList() {
       let personalTotal = Number(0)
       let companyTotal = Number(0)
-      this.paymentItemList.forEach(item => {
+      this.paymentItemList.forEach((item) => {
         if (item.name === '工伤' && item.switchCompany) {
-          item.scaleCompany = this.sizeForm.userSocialSecurity.industrialInjuryRatio
+          item.scaleCompany =
+            this.sizeForm.userSocialSecurity.industrialInjuryRatio
         }
         if (item.switchCompany) {
           item.companyPay = parseFloat(
-            (this.sizeForm.userSocialSecurity.socialSecurityBase * item.scaleCompany) / 100
+            (this.sizeForm.userSocialSecurity.socialSecurityBase *
+              item.scaleCompany) /
+              100
           ).toFixed(2)
           companyTotal = Number(companyTotal + Number(item.companyPay))
         }
         if (item.switchPersonal) {
           item.personalPay = parseFloat(
-            (this.sizeForm.userSocialSecurity.socialSecurityBase * item.scalePersonal) / 100
+            (this.sizeForm.userSocialSecurity.socialSecurityBase *
+              item.scalePersonal) /
+              100
           ).toFixed(2)
           personalTotal = Number(personalTotal + Number(item.personalPay))
         }
@@ -377,13 +443,15 @@ export default {
     },
     computeEnterpriseProvidentFundPayment() {
       return parseFloat(
-        (this.sizeForm.userSocialSecurity.enterpriseProportion * this.sizeForm.userSocialSecurity.providentFundBase) /
+        (this.sizeForm.userSocialSecurity.enterpriseProportion *
+          this.sizeForm.userSocialSecurity.providentFundBase) /
           100
       ).toFixed(2)
     },
     computePersonalProvidentFundPayment() {
       return parseFloat(
-        (this.sizeForm.userSocialSecurity.personalProportion * this.sizeForm.userSocialSecurity.providentFundBase) /
+        (this.sizeForm.userSocialSecurity.personalProportion *
+          this.sizeForm.userSocialSecurity.providentFundBase) /
           100
       ).toFixed(2)
     }
@@ -398,12 +466,16 @@ export default {
     'sizeForm.userSocialSecurity.personalProportion': function() {
       this.changeProvidentFundPayment()
     },
-    'sizeForm.userSocialSecurity.enterprisesPaySocialSecurityThisMonth': function() {
-      this.isPaySocialInMonth = this.sizeForm.enterprisesPaySocialSecurityThisMonth === 1
-    },
-    'sizeForm.userSocialSecurity.enterprisesPayTheProvidentFundThisMonth': function() {
-      this.isPayProvidentInMonth = this.sizeForm.enterprisesPayTheProvidentFundThisMonth === 1
-    }
+    'sizeForm.userSocialSecurity.enterprisesPaySocialSecurityThisMonth':
+      function() {
+        this.isPaySocialInMonth =
+          this.sizeForm.enterprisesPaySocialSecurityThisMonth === 1
+      },
+    'sizeForm.userSocialSecurity.enterprisesPayTheProvidentFundThisMonth':
+      function() {
+        this.isPayProvidentInMonth =
+          this.sizeForm.enterprisesPayTheProvidentFundThisMonth === 1
+      }
   },
   created() {
     this.sizeForm.userId = this.$route.params.id
@@ -419,8 +491,10 @@ export default {
       this.initPaymentItem(obj)
     },
     async saveData() {
-      this.sizeForm.userSocialSecurity.enterprisesPaySocialSecurityThisMonth = this.isPaySocialInMonth ? 1 : 0
-      this.sizeForm.userSocialSecurity.enterprisesPayTheProvidentFundThisMonth = this.isPayProvidentInMonth ? 1 : 0
+      this.sizeForm.userSocialSecurity.enterprisesPaySocialSecurityThisMonth =
+        this.isPaySocialInMonth ? 1 : 0
+      this.sizeForm.userSocialSecurity.enterprisesPayTheProvidentFundThisMonth =
+        this.isPayProvidentInMonth ? 1 : 0
       this.sizeForm.userSocialSecurity.userId = this.sizeForm.userId
       var cCity = this.sizeForm.userSocialSecurity.participatingInTheCity
       var fCity = this.sizeForm.userSocialSecurity.participatingInTheCity
@@ -452,14 +526,18 @@ export default {
       this.paymentItemList = await getPaymentItemList(city.id)
     },
     changeProvidentFundPayment() {
-      this.sizeForm.userSocialSecurity.enterpriseProvidentFundPayment = parseFloat(
-        (this.sizeForm.userSocialSecurity.enterpriseProportion * this.sizeForm.userSocialSecurity.providentFundBase) /
-          100
-      ).toFixed(2)
-      this.sizeForm.userSocialSecurity.personalProvidentFundPayment = parseFloat(
-        (this.sizeForm.userSocialSecurity.personalProportion * this.sizeForm.userSocialSecurity.providentFundBase) /
-          100
-      ).toFixed(2)
+      this.sizeForm.userSocialSecurity.enterpriseProvidentFundPayment =
+        parseFloat(
+          (this.sizeForm.userSocialSecurity.enterpriseProportion *
+            this.sizeForm.userSocialSecurity.providentFundBase) /
+            100
+        ).toFixed(2)
+      this.sizeForm.userSocialSecurity.personalProvidentFundPayment =
+        parseFloat(
+          (this.sizeForm.userSocialSecurity.personalProportion *
+            this.sizeForm.userSocialSecurity.providentFundBase) /
+            100
+        ).toFixed(2)
     }
   }
 }
