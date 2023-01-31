@@ -13,6 +13,8 @@
 
     <!-- 右侧菜单 -->
     <div class="right-menu">
+      <!-- 放置全局插件 -->
+      <screen-full class="right-menu-item" />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img v-imageerror="defaultImg" :src="staffPhoto" class="user-avatar">
@@ -167,6 +169,10 @@ export default {
         }
       }
     }
+
+    .right-menu-item {
+   vertical-align: middle;
+}
   }
 }
 </style>
