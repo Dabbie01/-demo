@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 10:52:22
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-15 17:34:33
+ * @LastEditTime: 2023-01-25 15:52:23
  * @FilePath: \bg-system\src\views\approvals\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -184,7 +184,7 @@ export default {
       page: {
         // 放置页码及相关数据
         page: 1,
-        pagesize: 2,
+        pagesize: 10,
         total: 0 // 记录总数
       },
       formData: {

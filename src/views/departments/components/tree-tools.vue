@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-04 17:15:33
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-07 16:39:14
+ * @LastEditTime: 2023-01-25 16:12:39
  * @FilePath: \bg-system\src\views\departments\components\tree-tools.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -31,7 +31,7 @@
             <!-- 具名插槽 -->
             <el-dropdown-menu slot="dropdown">
               <!-- 下拉选项 -->
-              <el-dropdown-item command="add">添加子部门</el-dropdown-item>
+              <el-dropdown-item command="add" :disabled="!checkPermission('add-dept')">添加子部门</el-dropdown-item>
               <el-dropdown-item
                 v-if="!isRoot"
                 command="edit"
