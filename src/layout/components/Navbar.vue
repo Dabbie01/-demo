@@ -15,9 +15,15 @@
     <div class="right-menu">
       <!-- 放置全局插件 -->
       <screen-full class="right-menu-item" />
+      <!-- 放置切换主题颜色插件 -->
+      <theme-picker class="right-menu-item" />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img v-imageerror="defaultImg" :src="staffPhoto" class="user-avatar">
+          <img
+            v-imageerror="defaultImg"
+            :src="staffPhoto"
+            class="user-avatar"
+          >
           <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" style="color: #fff" />
         </div>
@@ -25,10 +31,7 @@
           <router-link to="/">
             <el-dropdown-item> 首页 </el-dropdown-item>
           </router-link>
-          <a
-            target="_blank"
-            href="https://github.com/Dabbie01/-demo"
-          >
+          <a target="_blank" href="https://github.com/Dabbie01/-demo">
             <el-dropdown-item>项目地址</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">
@@ -171,8 +174,8 @@ export default {
     }
 
     .right-menu-item {
-   vertical-align: middle;
-}
+      vertical-align: middle;
+    }
   }
 }
 </style>
