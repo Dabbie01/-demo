@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2022-12-28 16:28:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-31 10:46:31
+ * @LastEditTime: 2023-01-31 16:48:15
  * @FilePath: \bg-system\src\views\dashboard\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -26,7 +26,7 @@
     <!-- 主要内容 -->
     <el-row type="flex" justify="space-between">
       <!-- 左侧内容 -->
-      <el-col :span="13" style="padding-right:26px">
+      <el-col :span="13" style="padding-right: 26px">
         <!-- 工作日历 -->
         <el-card class="box-card">
           <div slot="header" class="header">
@@ -38,14 +38,17 @@
         <!-- 公告 -->
         <el-card class="box-card">
           <div class="advContent">
-            <div class="title"> 公告</div>
+            <div class="title">公告</div>
             <div class="contentItem">
               <ul class="noticeList">
                 <li>
                   <div class="item">
                     <img src="@/assets/common/img.jpeg" alt="">
                     <div>
-                      <p><span class="col">朱继柳</span> 发布了 第1期“传智大讲堂”互动讨论获奖名单公布</p>
+                      <p>
+                        <span class="col">朱继柳</span> 发布了
+                        第1期“传智大讲堂”互动讨论获奖名单公布
+                      </p>
                       <p>2022-11-21 15:21:38</p>
                     </div>
                   </div>
@@ -54,7 +57,10 @@
                   <div class="item">
                     <img src="@/assets/common/img.jpeg" alt="">
                     <div>
-                      <p><span class="col">朱继柳</span> 发布了 第2期“传智大讲堂”互动讨论获奖名单公布</p>
+                      <p>
+                        <span class="col">朱继柳</span> 发布了
+                        第2期“传智大讲堂”互动讨论获奖名单公布
+                      </p>
                       <p>2022-11-21 15:21:38</p>
                     </div>
                   </div>
@@ -63,7 +69,10 @@
                   <div class="item">
                     <img src="@/assets/common/img.jpeg" alt="">
                     <div>
-                      <p><span class="col">朱继柳</span> 发布了 第3期“传智大讲堂”互动讨论获奖名单公布</p>
+                      <p>
+                        <span class="col">朱继柳</span> 发布了
+                        第3期“传智大讲堂”互动讨论获奖名单公布
+                      </p>
                       <p>2022-11-21 15:21:38</p>
                     </div>
                   </div>
@@ -80,10 +89,19 @@
             <span>流程申请</span>
           </div>
           <div class="sideNav">
-            <el-button class="sideBtn">加班离职</el-button>
+            <el-button
+              class="sideBtn"
+              @click="showDialog = true"
+            >加班离职</el-button>
             <el-button class="sideBtn">请假调休</el-button>
-            <el-button class="sideBtn">审批列表</el-button>
-            <el-button class="sideBtn">我的信息</el-button>
+            <el-button
+              class="sideBtn"
+              @click="$router.push('/users/approvals')"
+            >审批列表</el-button>
+            <el-button
+              class="sideBtn"
+              @click="$router.push('/users/info')"
+            >我的信息</el-button>
           </div>
         </el-card>
 
@@ -92,7 +110,8 @@
           <div slot="header" class="header">
             <span>绩效指数</span>
           </div>
-        <!-- 放置雷达图 -->
+          <!-- 放置雷达图 -->
+          <Radar />
         </el-card>
         <!-- 帮助连接 -->
         <el-card class="box-card">
@@ -124,29 +143,114 @@
         </el-card>
       </el-col>
     </el-row>
+    <!-- 离职弹出层 -->
+    <el-dialog :visible="showDialog" title="离职申请" @close="btnCancel">
+      <el-form
+        ref="ruleForm"
+        :model="ruleForm"
+        status-icon
+        label-width="110px"
+        :rules="rules"
+      >
+        <!--离职表单-->
+        <el-form-item label="离职时间" prop="end_time">
+          <!-- 离职时间 -->
+          <el-date-picker
+            v-model="ruleForm.exceptTime"
+            type="datetime"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期时间"
+          />
+        </el-form-item>
+        <el-form-item label="离职原因" prop="reason">
+          <el-input
+            v-model="ruleForm.reason"
+            type="textarea"
+            :autosize="{ minRows: 3, maxRows: 8 }"
+            style="width: 70%"
+            placeholder="请输入内容"
+          />
+        </el-form-item>
+      </el-form>
+      <el-row slot="footer" type="flex" justify="center">
+        <el-col :span="6">
+          <el-button size="small" type="primary" @click="btnOK">确定</el-button>
+          <el-button size="small" @click="btnCancel">取消</el-button>
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapGetters, createNamespacedHelpers } from 'vuex'
 const { mapState } = createNamespacedHelpers('user')
-import WorkCalender from './components/work-calendar.vue'
+import WorkCalender from './components/work-calendar'
+import Radar from './components/radar'
+import { startProcess } from '@/api/approvals'
 
 export default {
   name: 'Dashboard',
   components: {
-    WorkCalender
+    WorkCalender,
+    Radar
   },
   data() {
     return {
-      defaultImg: require('@/assets/common/head.jpg')
+      defaultImg: require('@/assets/common/head.jpg'),
+      showDialog: false,
+      // 离职表单
+      ruleForm: {
+        // 离职时间
+        exceptTime: '',
+        // 离职原因
+        reason: '',
+        processKey: 'process_dimission', // 特定的审批
+        processName: '离职'
+      },
+      // 表单校验
+      rules: {
+        exceptTime: [
+          { trigger: 'blur', required: true, message: '离职时间不能为空' }
+        ],
+        reason: [
+          { trigger: 'blur', required: true, message: '离职原因不能为空' }
+        ]
+      }
     }
   },
   computed: {
-    ...mapGetters([
-      'name', 'staffPhoto'
-    ]),
+    ...mapGetters(['name', 'staffPhoto']),
     ...mapState(['userInfo'])
+  },
+  methods: {
+    btnOK() {
+      this.$refs.ruleForm.validate(async(validate) => {
+        if (validate) {
+          const data = {
+            ...this.ruleForm,
+            userId: this.userInfo.userId,
+            username: this.userInfo.username
+          }
+          await startProcess(data)
+          this.$message.success('提交流程成功!')
+          this.btnCancel()
+        }
+      })
+    },
+    btnCancel() {
+      // 关闭弹层
+      this.showDialog = false
+      // 重置校验
+      this.$refs.ruleForm.resetFields()
+      // 清空
+      this.ruleForm = {
+        exceptTime: '',
+        reason: '',
+        processKey: 'process_dimission', // 特定的审批
+        processName: '离职'
+      }
+    }
   }
 }
 </script>
@@ -163,7 +267,7 @@ export default {
     height: 100px;
     border-radius: 50%;
     background: #999;
-          img {
+    img {
       width: 100%;
       height: 100%;
       border-radius: 50%;
@@ -208,7 +312,7 @@ export default {
     }
   }
 }
-.header-card{
+.header-card {
   position: relative;
   .header {
     position: absolute;
@@ -232,7 +336,7 @@ export default {
     min-height: 350px;
     .item {
       display: flex;
-      padding:18px 0 10px;
+      padding: 18px 0 10px;
       border-bottom: solid 1px #ccc;
       .col {
         color: #8a97f8;
@@ -243,7 +347,7 @@ export default {
         border-radius: 50%;
         margin-right: 10px;
       }
-      p{
+      p {
         padding: 0 0 8px;
       }
     }
@@ -258,7 +362,7 @@ export default {
   padding: 30px 0 12px;
   .sideBtn {
     padding: 16px 26px;
-    font-size:16px;
+    font-size: 16px;
     margin: 10px 5px;
   }
 }
@@ -268,7 +372,7 @@ export default {
     display: inline-block;
     width: 76px;
     height: 76px;
-    background: url('./../../assets/common/icon.png') no-repeat;
+    background: url("./../../assets/common/icon.png") no-repeat;
   }
   .iconGuide {
     background-position: 0 0;
