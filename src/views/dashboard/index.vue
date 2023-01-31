@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2022-12-28 16:28:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-31 10:35:46
+ * @LastEditTime: 2023-01-31 10:46:31
  * @FilePath: \bg-system\src\views\dashboard\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -32,7 +32,8 @@
           <div slot="header" class="header">
             <span>工作日历</span>
           </div>
-        <!-- 放置日历组件 -->
+          <!-- 放置日历组件 -->
+          <WorkCalender />
         </el-card>
         <!-- 公告 -->
         <el-card class="box-card">
@@ -129,9 +130,13 @@
 <script>
 import { mapGetters, createNamespacedHelpers } from 'vuex'
 const { mapState } = createNamespacedHelpers('user')
+import WorkCalender from './components/work-calendar.vue'
 
 export default {
   name: 'Dashboard',
+  components: {
+    WorkCalender
+  },
   data() {
     return {
       defaultImg: require('@/assets/common/head.jpg')

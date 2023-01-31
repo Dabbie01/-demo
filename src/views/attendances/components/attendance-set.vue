@@ -664,7 +664,7 @@ export default {
       this.$refs.overtimeForm.validate(async valid => {
         if (valid) {
           var deductionList = this.overtimeBase
-          deductionList.latestEffectDate = commonApi.transListToTreeData(
+          deductionList.latestEffectDate = commonApi.tranListToTreeData(
             deductionList.latestEffectDate
           )
           if (deductionList.isClock === true) {
