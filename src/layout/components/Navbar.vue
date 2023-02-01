@@ -13,6 +13,8 @@
 
     <!-- 右侧菜单 -->
     <div class="right-menu">
+      <!-- 放置多语言插件 -->
+      <lang-select class="right-menu-item" />
       <!-- 放置全局插件 -->
       <screen-full class="right-menu-item" />
       <!-- 放置切换主题颜色插件 -->

@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2022-12-28 16:28:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-01-04 15:08:57
+ * @LastEditTime: 2023-02-01 10:23:48
  * @FilePath: \bg-system\src\layout\components\Sidebar\SidebarItem.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -12,7 +12,7 @@
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
           <!-- item为自定义组件 -->
-          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="$t('route.'+onlyOneChild.name)" />
         </el-menu-item>
       </app-link>
     </template>
