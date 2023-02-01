@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2022-12-28 16:28:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-02-01 10:25:09
+ * @LastEditTime: 2023-02-01 11:21:35
  * @FilePath: \bg-system\src\router\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -77,7 +77,8 @@ export const asyncRoutes = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
+  base: '/bg/', // 配置项目的基础地址
   scrollBehavior: () => ({ y: 0 }),
   routes: [...constantRoutes, ...asyncRoutes] // 临时合并所有的路由
 })
