@@ -22,7 +22,7 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img
-            v-imageerror="defaultImg"
+            v-imagerror="defaultImg"
             :src="staffPhoto"
             class="user-avatar"
           >
