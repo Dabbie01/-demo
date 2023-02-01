@@ -2,7 +2,7 @@
  * @Author: Dabbie 2310734576@qq.com
  * @Date: 2023-01-08 17:24:07
  * @LastEditors: Dabbie 2310734576@qq.com
- * @LastEditTime: 2023-02-01 10:32:09
+ * @LastEditTime: 2023-02-01 11:05:59
  * @FilePath: \bg-system\src\components\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -15,6 +15,7 @@ import Print from 'vue-print-nb'
 import ScreenFull from './ScreenFull'
 import ThemePicker from './ThemePicker'
 import LangSelect from './Lang'
+import TagsView from './TagsView'
 
 export default {
   install(Vue) {
@@ -26,5 +27,6 @@ export default {
     Vue.component('ScreenFull', ScreenFull) // 注册全屏组件
     Vue.component('ThemePicker', ThemePicker)
     Vue.component('LangSelect', LangSelect)
+    Vue.component('TagsView', TagsView)
   }
 }
